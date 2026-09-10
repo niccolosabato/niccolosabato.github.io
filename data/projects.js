@@ -18,9 +18,9 @@ export const PROGETTI = [
     id: "eduscout",
     nome: "EduScout",
     tipo: "DASHBOARD + ML",
-    riga: "Abbandono scolastico",
+    riga: "L'istruzione in Nigeria",
     descrizione:
-      "Dashboard dimostrativa e pipeline Python: stima il rischio di abbandono scolastico nelle 774 aree della Nigeria, ne spiega le cause con SHAP e distribuisce un budget limitato dove rende di più. I dati sono simulati.",
+      "Dashboard dimostrativa e pipeline Python: stima il rischio di abbandono scolastico nelle 774 aree della Nigeria, ne spiega le cause con SHAP e distribuisce un budget limitato.",
     stack: ["Python", "sklearn", "SHAP"],
     link: [
       { label: "APRI", url: "https://niccolosabato.github.io/EduScoutDemo/" },
@@ -30,10 +30,10 @@ export const PROGETTI = [
   {
     id: "indovinaquando",
     nome: "IndovinaQuando",
-    tipo: "GIOCO WEB",
+    tipo: "GIOCO SULLA STORIA",
     riga: "Indovina l'anno esatto",
     descrizione:
-      "Leggi un evento storico e indovini in che anno è successo, muovendo un cursore sulla linea del tempo. Cinque round, cento punti al massimo per round. Gli eventi sono scritti a mano, più altri presi da Wikipedia.",
+      "Leggi un evento storico e indovina in che anno è successo, con 3 livelli di difficoltà. Cinque round, cento punti al massimo per round. Approfondisci l'evento con il link a Wikipedia.",
     stack: ["JS", "HTML", "CSS"],
     link: [
       { label: "GIOCA", url: "https://niccolosabato.github.io/IndovinaQuando/" },
@@ -57,9 +57,9 @@ export const PROGETTI = [
     id: "portfolio",
     nome: "Sabato Portfolio",
     tipo: "SITO PERSONALE",
-    riga: "Il coso che hai in mano",
+    riga: "Il sito attualmente aperto",
     descrizione:
-      "Questo. Il guscio è disegnato in CSS, lo schermo è un canvas da 240x216 pixel ingrandito senza sfocare. Nessuna libreria, nessun passo di compilazione, nessuna chiamata di rete.",
+      "Sito in stile GameBoy, si naviga con i pulsanti della console e si esplorano i miei progetti e le mie analisi. Nessuna libreria, nessun passo di compilazione, nessuna chiamata di rete.",
     stack: ["JS", "HTML", "CSS"],
     link: [
       { label: "APRI", qui: true },
@@ -70,11 +70,11 @@ export const PROGETTI = [
   {
     id: "violenza-sessuale",
     sezione: "ANALISI",
-    nome: "Violenza sessuale",
+    nome: "Violenza in Italia",
     tipo: "ANALISI STATISTICA",
-    riga: "In Italia, fonti ISTAT",
+    riga: "Violenza sessuale",
     descrizione:
-      "Rapporto sullo scarto fra la violenza che le donne dichiarano all'ISTAT e quella che arriva a denuncia, più l'andamento di condanne e detenuti e la parte sulle vittime minorenni. Fonti ISTAT e dati ministeriali.",
+      "Rapporto sullo scarto fra la violenza che le donne dichiarano all'ISTAT e quella che arriva a denuncia, più l'andamento di condanne e detenuti e la parte sulle vittime minorenni.",
     stack: ["ISTAT", "dati ministeriali"],
     link: [
       {
