@@ -56,11 +56,28 @@ export function avviso(testo) {
   righe.forEach((r, k) => S.textCenter(r, riga0 + k, 3));
 }
 
-/** Apre un indirizzo esterno. Va chiamato dentro la gestione di una
- *  pressione, altrimenti il browser blocca la nuova scheda. */
+/** Apre un indirizzo esterno. Va chiamato dentro la gestione di una pressione,
+ *  altrimenti il browser blocca la nuova scheda.
+ *
+ *  Se la blocca lo stesso — Safari è severo — `window.open` restituisce null e
+ *  si ripiega sulla navigazione nella stessa scheda, che non viene mai
+ *  bloccata: meglio uscire dal sito che non far succedere niente.
+ *
+ *  Non si passa "noopener" fra le opzioni: con quello `window.open`
+ *  restituisce null anche quando ha funzionato, e non si distinguerebbe più il
+ *  blocco dalla riuscita. L'opener si azzera dopo. */
 export function apriLink(url) {
   if (!url) return false;
-  if (url.startsWith("mailto:")) window.location.href = url;
-  else window.open(url, "_blank", "noopener,noreferrer");
+
+  if (!url.startsWith("mailto:")) {
+    let nuova = null;
+    try { nuova = window.open(url, "_blank"); } catch { nuova = null; }
+    if (nuova) {
+      try { nuova.opener = null; } catch { /* altra origine: pazienza */ }
+      return true;
+    }
+  }
+
+  window.location.href = url;
   return true;
 }

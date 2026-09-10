@@ -56,12 +56,12 @@ export function attach(root, onPress) {
     premi(cmd);
   });
 
-  // Il puntatore agisce su pressione, non su click: risponde subito e vale
-  // anche per il touch.
+  // Si ascolta `click`, non `pointerdown`. Safari — su iOS in particolare —
+  // apre una scheda nuova solo se la chiamata parte da un click vero: con
+  // `pointerdown` i link dei progetti venivano bloccati in silenzio. Il ritardo
+  // del tocco non c'è comunque, perché il CSS dichiara
+  // `touch-action: manipulation`.
   root.querySelectorAll("[data-btn]").forEach((el) => {
-    el.addEventListener("pointerdown", (e) => {
-      e.preventDefault();
-      premi(el.dataset.btn);
-    });
+    el.addEventListener("click", () => premi(el.dataset.btn));
   });
 }
