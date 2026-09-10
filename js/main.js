@@ -2,7 +2,7 @@
 
 import * as S from "./screen.js";
 import * as R from "./router.js";
-import { attach } from "./input.js";
+import { attach, lasciaIlFuoco } from "./input.js";
 import { setMuto, sblocca } from "./audio.js";
 import { leggiPreferenze } from "./prefs.js";
 import { creaHome } from "./screens/home.js";
@@ -40,7 +40,8 @@ attach(consoleEl, (cmd) => {
   if (accesa) R.input(cmd);
 });
 
-document.getElementById("power").addEventListener("click", () => {
+document.getElementById("power").addEventListener("click", (e) => {
+  lasciaIlFuoco(e);
   accesa = !accesa;
   consoleEl.classList.toggle("off", !accesa);
   if (accesa) {

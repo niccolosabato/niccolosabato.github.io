@@ -36,6 +36,19 @@ function lampeggia(root, cmd) {
   setTimeout(() => el.classList.remove("pressed"), 110);
 }
 
+/** Dopo un clic col dito o col mouse il tasto resta a fuoco. Il fuoco lì non
+ *  serve a niente — la tastiera è ascoltata sulla finestra, non sui tasti — ma
+ *  alla prima pressione di un tasto il browser decide che quel fuoco va
+ *  mostrato e disegna l'anello sull'ultimo tasto toccato, dove resta finché non
+ *  si clicca altrove. Quindi lo si lascia andare.
+ *
+ *  `detail` vale 0 se il clic arriva da Invio o dalla barra spaziatrice su un
+ *  tasto già a fuoco: quello è il fuoco di chi naviga da tastiera e non va
+ *  tolto, altrimenti perde il segno. */
+export function lasciaIlFuoco(e) {
+  if (e.detail > 0) e.currentTarget.blur();
+}
+
 /**
  * @param {HTMLElement} root  la console
  * @param {(cmd: string) => void} onPress
@@ -62,6 +75,9 @@ export function attach(root, onPress) {
   // del tocco non c'è comunque, perché il CSS dichiara
   // `touch-action: manipulation`.
   root.querySelectorAll("[data-btn]").forEach((el) => {
-    el.addEventListener("click", () => premi(el.dataset.btn));
+    el.addEventListener("click", (e) => {
+      lasciaIlFuoco(e);
+      premi(el.dataset.btn);
+    });
   });
 }
