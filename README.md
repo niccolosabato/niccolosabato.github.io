@@ -4,9 +4,6 @@ Sito personale a forma di Game Boy. Il guscio della console occupa la pagina, i
 contenuti stanno dentro lo schermo LCD e ci si naviga con i tasti: croce
 direzionale, A, B, Start e Select, usabili con mouse, dito o tastiera.
 
-Non è un curriculum e non prova a vendere niente: è un giocattolo che raccoglie
-i link ai progetti.
-
 Live: <https://niccolosabato.github.io>
 
 ## Com'è fatto
@@ -25,9 +22,8 @@ js/main.js          avvio e interruttore
 js/screen.js        disegno sul canvas: griglia, testo, a capo
 js/input.js         tastiera, mouse e touch → comandi astratti
 js/router.js        macchina a stati delle schermate
-js/audio.js         bip generati, muti finché non si accendono
-js/palettes.js      le tre palette
-js/prefs.js         palette e audio in localStorage
+js/audio.js         bip generati con oscillatori, accesi di default
+js/prefs.js         l'audio acceso o spento, in localStorage
 js/screens/home.js  la home: l'elenco dei progetti
 js/screens/         una schermata per file
 data/projects.js    i progetti
@@ -92,9 +88,13 @@ un repo, un sito o un documento condiviso.
 
 ## Le schermate
 
-La home **è** l'elenco dei progetti: non c'è un menu prima. Sotto i progetti,
-separate da un filetto, ci sono `CONTATTI` e `OPZIONI`. Da ogni progetto si
-apre la sua scheda, con descrizione, stack e i link da aprire.
+La home **è** l'elenco dei contenuti, diviso in sezioni: `PROGETTI` e
+`ANALISI`. Non c'è un menu prima. In fondo, staccate da un filetto, ci sono
+`CONTATTI` e l'interruttore dell'audio. Da ogni voce si apre la sua scheda,
+con descrizione, stack e i link da aprire.
+
+L'audio è **acceso** di default: il primo suono arriva alla prima pressione,
+che è anche il momento in cui il browser permette di riprodurlo.
 
 All'avvio il logotipo scende come sulla console vera; si salta con un tasto e
 non ricompare finché la scheda resta aperta.

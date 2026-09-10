@@ -4,7 +4,6 @@ import * as S from "./screen.js";
 import * as R from "./router.js";
 import { attach } from "./input.js";
 import { setMuto } from "./audio.js";
-import { paletteById } from "./palettes.js";
 import { leggiPreferenze } from "./prefs.js";
 import { creaHome } from "./screens/home.js";
 import { creaBoot } from "./screens/boot.js";
@@ -15,8 +14,7 @@ const canvas = document.getElementById("screen");
 S.init(canvas);
 
 const prefs = leggiPreferenze();
-S.setPalette(paletteById(prefs.palette).colori);
-setMuto(prefs.muto !== false); // muto finché non lo si accende dalle opzioni
+setMuto(prefs.muto === true); // acceso, a meno che non sia stato spento
 
 let accesa = true;
 

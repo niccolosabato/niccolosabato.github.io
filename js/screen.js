@@ -21,20 +21,20 @@ export const ROWS = 20;  // (216 - 8*2) / 10
 
 const FONT = '8px "Press Start 2P", monospace';
 
+// I quattro toni del Game Boy originale, dal più chiaro (0, sfondo) al più
+// scuro (3, inchiostro).
+const PALETTE = ["#9bbc0f", "#8bac0f", "#306230", "#0f380f"];
+
 let g = null;
-let pal = ["#9bbc0f", "#8bac0f", "#306230", "#0f380f"];
+const pal = PALETTE;
 
 export function init(canvas) {
   g = canvas.getContext("2d", { alpha: false });
   g.imageSmoothingEnabled = false;
   g.textBaseline = "alphabetic";
   g.font = FONT;
-}
-
-export function setPalette(colori) {
-  pal = colori;
   const lcd = document.querySelector(".lcd");
-  if (lcd) lcd.style.background = colori[0];
+  if (lcd) lcd.style.background = PALETTE[0];
 }
 
 export function colore(i) {

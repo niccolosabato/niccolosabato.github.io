@@ -1,9 +1,11 @@
 // Suoni generati con oscillatori: nessun file audio da scaricare.
-// Muto di default — i browser bloccano comunque l'audio finché l'utente non
-// interagisce, quindi l'AudioContext viene creato al primo suono richiesto.
+// Acceso di default, e si spegne dalla home. L'AudioContext viene creato al
+// primo suono richiesto, che arriva sempre da una pressione dell'utente: prima
+// di quella il browser lo terrebbe comunque sospeso.
 
 let ac = null;
-let muto = true;
+let muto = false;   // acceso di default; il browser lo lascia partire solo
+                    // dopo la prima pressione, ed è quello che vogliamo
 
 export function setMuto(v) {
   muto = !!v;

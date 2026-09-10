@@ -1,12 +1,15 @@
-// Contatti: elenco a sinistra, il valore per esteso nel riquadro in fondo.
+// Contatti: etichetta e valore uno sotto l'altro, tutto visibile insieme. Il
+// blocco si centra nello spazio disponibile invece di lasciare un vuoto.
 
+import * as S from "../screen.js";
 import * as R from "../router.js";
 import { suoni } from "../audio.js";
 import { CONTATTI } from "../../data/contacts.js";
-import { intestazione, piede, lista, riquadro, avviso, apriLink } from "./ui.js";
+import { intestazione, piede, avviso, apriLink, bloccoCentrato } from "./ui.js";
 
-const RIGA_LISTA = 3;
-const RIGA_ANTEPRIMA = 17;
+const PRIMA_RIGA = 2;
+const ULTIMA_RIGA = 18;
+const RIGHE_PER_VOCE = 3;   // etichetta, valore, riga di stacco
 
 export function creaContatti() {
   let scelta = 0;
@@ -15,12 +18,23 @@ export function creaContatti() {
   return {
     draw() {
       intestazione("contatti");
-      lista(CONTATTI.map((c) => c.label), scelta, RIGA_LISTA);
 
-      const c = CONTATTI[scelta];
-      riquadro([c.valore], RIGA_ANTEPRIMA, 1);
+      // l'ultima voce non ha bisogno della riga di stacco finale
+      const altezza = CONTATTI.length * RIGHE_PER_VOCE - 1;
+      const riga0 = bloccoCentrato(altezza, PRIMA_RIGA, ULTIMA_RIGA);
 
-      piede(c.url ? "A:APRI  B:INDIETRO" : "B:INDIETRO");
+      CONTATTI.forEach((c, k) => {
+        const riga = riga0 + k * RIGHE_PER_VOCE;
+        if (k === scelta) {
+          S.textInvert("  " + c.label, 0, riga);
+          S.triangolo(0, riga, "destra", 0);
+        } else {
+          S.text("  " + c.label, 0, riga, 3);
+        }
+        S.text(c.valore, 2, riga + 1, 2);
+      });
+
+      piede(CONTATTI[scelta].url ? "A:APRI  B:INDIETRO" : "B:INDIETRO");
       if (messaggio) avviso(messaggio);
     },
 

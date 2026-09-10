@@ -13,6 +13,7 @@ import { CONTATTI } from "./data/contacts.js";
 
 const RIGHE_DESCRIZIONE = 9;   // vedi js/screens/project.js
 const MAX_ANTEPRIMA = 27;      // il riquadro scrive a partire dalla colonna 1
+const MAX_CONTATTO = COLS - 2; // il valore è rientrato sotto l'etichetta
 const MAX_LINK = 3;
 const MAX_NOME = COLS - 2;    // la lista rientra di due colonne per il cursore
 
@@ -46,7 +47,7 @@ for (const p of PROGETTI) {
 console.log("\nContatti");
 for (const c of CONTATTI) {
   console.log(`  ${c.label}: ${c.valore}`);
-  verifica(c.valore.length <= MAX_ANTEPRIMA, `il valore di ${c.label} è di ${c.valore.length} caratteri, il massimo è ${MAX_ANTEPRIMA}`);
+  verifica(c.valore.length <= MAX_CONTATTO, `il valore di ${c.label} è di ${c.valore.length} caratteri, il massimo è ${MAX_CONTATTO}`);
   verifica(c.label.length <= COLS - 2, `l'etichetta ${c.label} è troppo lunga`);
 }
 

@@ -29,6 +29,13 @@ export function lista(voci, scelta, riga0) {
   });
 }
 
+/** Prima riga da cui far partire un blocco alto `altezza` righe perché
+ *  risulti centrato fra `prima` e `ultima`. Se non ci sta, resta in alto. */
+export function bloccoCentrato(altezza, prima, ultima) {
+  const spazio = ultima - prima + 1;
+  return prima + Math.max(0, Math.floor((spazio - altezza) / 2));
+}
+
 /** Riquadro di anteprima in fondo allo schermo, con dentro del testo. */
 export function riquadro(righe, riga0, altezzaRighe) {
   const y = S.PAD_Y + riga0 * S.LINE - 3;

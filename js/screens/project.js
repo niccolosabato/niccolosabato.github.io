@@ -8,8 +8,6 @@ import { intestazione, piede, avviso, apriLink } from "./ui.js";
 const RIGA_TIPO = 2;
 const RIGA_DESCRIZIONE = 4;
 const RIGHE_DESCRIZIONE = 9;
-const RIGA_STACK = 14;
-const RIGA_LINK = 16;
 
 export function creaProgetto(progetto) {
   const righe = S.wrap(progetto.descrizione, S.COLS);
@@ -31,12 +29,20 @@ export function creaProgetto(progetto) {
 
       descrizione.forEach((r, k) => S.text(r, 0, RIGA_DESCRIZIONE + k, 3));
 
-      const stack = (progetto.stack || []).join(" · ");
-      if (stack) S.text(stack.slice(0, S.COLS), 0, RIGA_STACK, 2);
+      // Le sezioni si susseguono con una riga di stacco: con descrizioni corte
+      // non resta un buco in mezzo alla schermata.
+      let riga = RIGA_DESCRIZIONE + descrizione.length + 1;
 
+      const stack = (progetto.stack || []).join(" · ");
+      if (stack) {
+        S.text(stack.slice(0, S.COLS), 0, riga, 2);
+        riga += 2;
+      }
+
+      const rigaLink = riga;
       link.forEach((l, k) => {
         const etichetta = l.label + (l.url || l.qui ? "" : " (MANCA IL LINK)");
-        const riga = RIGA_LINK + k;
+        const riga = rigaLink + k;
         if (k === scelta) {
           S.textInvert("  " + etichetta, 0, riga);
           S.triangolo(0, riga, "destra", 0);

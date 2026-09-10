@@ -7,6 +7,9 @@
 //   descrizione al massimo 9 righe una volta spezzata, cioè ~250 caratteri
 //   link        al massimo 3 per progetto
 //
+// `sezione` decide sotto quale intestazione finisce la voce nella home:
+// "PROGETTI" (predefinito) oppure "ANALISI". Le sezioni vuote non compaiono.
+//
 // Un link con `qui: true` non apre niente: è la voce scherzosa di questo
 // stesso sito.
 
@@ -65,6 +68,7 @@ export const PROGETTI = [
 
   {
     id: "violenza-sessuale",
+    sezione: "ANALISI",
     nome: "Violenza sessuale",
     tipo: "ANALISI STATISTICA",
     riga: "In Italia, fonti ISTAT",
@@ -86,6 +90,7 @@ export const PROGETTI = [
   //
   // {
   //   id: "nome-corto",
+  //   sezione: "ANALISI",
   //   nome: "Titolo dell'analisi",
   //   tipo: "ANALISI STATISTICA",
   //   riga: "una riga di anteprima",
