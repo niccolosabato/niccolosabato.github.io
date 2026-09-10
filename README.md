@@ -26,7 +26,7 @@ compilazione, nessuna chiamata di rete: quello che si vede è tutto nel repo.
 ```
 index.html
 check.mjs           controlla che i testi stiano nello schermo
-serve.py            server di sviluppo locale
+server.py            server di sviluppo locale
 css/shell.css       plancia: plastica, comandi, disposizione
 css/screen.css      pannello LCD e font
 fonts/              Press Start 2P
@@ -100,7 +100,7 @@ schermo si smorza, riaccendendolo riparte l'animazione di avvio.
 ## Sviluppo
 
 ```bash
-python3 serve.py        # http://localhost:8765
+python3 server.py        # http://localhost:8765
 node check.mjs          # i testi stanno nello schermo?
 ```
 

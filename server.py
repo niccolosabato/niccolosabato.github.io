@@ -7,7 +7,7 @@ clic non funziona e basta. Il secondo è comodità: `http.server` non manda alcu
 header di cache e il browser decide da sé, quindi capita di ritrovarsi un
 modulo vecchio accanto a un `index.html` nuovo dopo una modifica.
 
-    python3 serve.py [porta]        # default 8765
+    python3 server.py [porta]        # default 8765
 """
 
 import http.server
