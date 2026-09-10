@@ -15,7 +15,7 @@ export const H = 216;
 export const CELL = 8;   // larghezza di un carattere
 export const LINE = 10;  // passo verticale fra due righe
 export const PAD_X = 8;
-export const PAD_Y = 8;
+export const PAD_Y = 10;
 export const COLS = 28;  // (240 - 8*2) / 8
 export const ROWS = 20;  // (216 - 8*2) / 10
 
@@ -102,9 +102,17 @@ export function triangolo(col, row, verso = "destra", i = 3) {
   }
 }
 
-/** Filetto orizzontale sotto un titolo. */
+/** Filetto di separazione. Occupa una riga tutta sua e ci sta in mezzo, così
+ *  le voci sopra e sotto gli restano staccate uguale. */
 export function hr(row, i = 3) {
-  fill(PAD_X, PAD_Y + row * LINE + 8, COLS * CELL, 1, i);
+  fill(PAD_X, PAD_Y + row * LINE + 4, COLS * CELL, 1, i);
+}
+
+/** Sottolineatura di un titolo. Sta più in basso del filetto normale, dentro
+ *  la riga successiva, che sotto un titolo è sempre vuota: le lettere non le
+ *  restano appiccicate sopra. */
+export function sottolinea(row, i = 3) {
+  fill(PAD_X, PAD_Y + row * LINE + 12, COLS * CELL, 1, i);
 }
 
 // ---- testo lungo ----

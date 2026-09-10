@@ -3,7 +3,7 @@
 import * as S from "./screen.js";
 import * as R from "./router.js";
 import { attach } from "./input.js";
-import { setMuto } from "./audio.js";
+import { setMuto, sblocca } from "./audio.js";
 import { leggiPreferenze } from "./prefs.js";
 import { creaHome } from "./screens/home.js";
 import { creaBoot } from "./screens/boot.js";
@@ -25,6 +25,16 @@ function avvia() {
   const motoRidotto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   R.riparti(giaVisto || motoRidotto ? creaHome() : creaBoot());
 }
+
+// Il primo gesto sulla pagina sblocca l'audio. Si ascolta `pointerdown`, che
+// arriva prima del `click` dei tasti: così il primo bip non si perde.
+function primoGesto() {
+  sblocca();
+  window.removeEventListener("pointerdown", primoGesto);
+  window.removeEventListener("keydown", primoGesto);
+}
+window.addEventListener("pointerdown", primoGesto);
+window.addEventListener("keydown", primoGesto);
 
 attach(consoleEl, (cmd) => {
   if (accesa) R.input(cmd);

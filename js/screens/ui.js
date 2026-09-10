@@ -8,7 +8,7 @@ export const RIGA_PIEDE = S.ROWS - 1;
 export function intestazione(titolo) {
   S.clear(0);
   S.text(titolo.toUpperCase(), 0, 0, 3);
-  S.hr(0);
+  S.sottolinea(0);
 }
 
 export function piede(testo) {
@@ -38,8 +38,10 @@ export function bloccoCentrato(altezza, prima, ultima) {
 
 /** Riquadro di anteprima in fondo allo schermo, con dentro del testo. */
 export function riquadro(righe, riga0, altezzaRighe) {
-  const y = S.PAD_Y + riga0 * S.LINE - 3;
-  const h = altezzaRighe * S.LINE + 6;
+  // le lettere sono alte 7px in una riga da 10: questi due numeri lasciano
+  // 4px di margine sopra e sotto il testo, uguali
+  const y = S.PAD_Y + riga0 * S.LINE - 4;
+  const h = altezzaRighe * S.LINE + 5;
   S.box(0, y, S.W, h, 3);
   righe.forEach((r, k) => S.text(r, 1, riga0 + k, 2));
 }
@@ -49,7 +51,7 @@ export function avviso(testo) {
   const righe = S.wrap(testo, S.COLS - 4);
   const riga0 = Math.floor((S.ROWS - righe.length) / 2);
   const y = S.PAD_Y + riga0 * S.LINE - 6;
-  const h = righe.length * S.LINE + 12;
+  const h = righe.length * S.LINE + 9;
   S.fill(6, y, S.W - 12, h, 0);
   S.box(6, y, S.W - 12, h, 3);
   S.box(8, y + 2, S.W - 16, h - 4, 3);

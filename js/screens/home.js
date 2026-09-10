@@ -70,7 +70,7 @@ export function creaHome() {
     draw() {
       S.clear(0);
       S.textCenter("SABATO PORTFOLIO", 0, 3);
-      S.hr(0);
+      S.sottolinea(0);
 
       // Se ci sta tutto, il blocco si centra fra intestazione e anteprima;
       // altrimenti si ancora in alto e scorre.
