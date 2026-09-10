@@ -1,6 +1,8 @@
-/* Corpo della console.
-   Una sola disposizione, verticale, uguale su tutti gli schermi: schermo in
-   alto, comandi sotto, come sul Game Boy.
+/* Disposizione della console.
+   Verticale, uguale su tutti gli schermi: schermo in alto, comandi sotto.
+   Il corpo non ha una forma propria: niente sagoma, niente angoli arrotondati,
+   niente ombra. Lo sfondo è una tinta piatta uguale su tutta la pagina, e
+   sopra ci stanno solo schermo e comandi.
 
    `--k` è il lato di un pixel del canvas in pixel veri. Tutto il resto è
    espresso in multipli di --k, quindi la console si ridimensiona intera
@@ -23,7 +25,7 @@ body {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: radial-gradient(130% 100% at 50% 0%, #2b2e35 0%, #15171a 72%);
+  background: #cbc6bc;   /* tinta piatta, su tutta la pagina */
   font-family: "Helvetica Neue", Arial, system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
@@ -41,15 +43,6 @@ body {
   padding: calc(12 * var(--k)) calc(14 * var(--k));
   user-select: none;
   touch-action: manipulation;
-
-  background:
-    radial-gradient(110% 70% at 26% 4%, rgba(255, 255, 255, .3), transparent 60%),
-    linear-gradient(158deg, #d9d5cb 0%, #cbc6bc 42%, #bdb8ad 74%, #b0aba0 100%);
-  border-radius: calc(18 * var(--k)) calc(18 * var(--k)) calc(62 * var(--k)) calc(18 * var(--k));
-  box-shadow:
-    0 calc(24 * var(--k)) calc(50 * var(--k)) rgba(0, 0, 0, .55),
-    inset 0 calc(2 * var(--k)) 0 rgba(255, 255, 255, .6),
-    inset 0 calc(-3 * var(--k)) 0 rgba(0, 0, 0, .14);
 }
 
 @supports (height: 100dvh) {

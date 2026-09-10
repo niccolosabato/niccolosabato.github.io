@@ -4,9 +4,11 @@ Sito personale in stile Game Boy. I contenuti stanno dentro uno schermo LCD e
 ci si naviga con i tasti della console — croce direzionale, A, B, Start e
 Select — usabili con mouse, dito o tastiera.
 
-La console è verticale, com'era il Game Boy, e la disposizione è la stessa su
-tutti gli schermi: pannello in alto, croce e A/B sotto, Start e Select in
-fondo. Rispetto alla console vera lo schermo è molto più grande in proporzione
+La disposizione è verticale ed è la stessa su tutti gli schermi: pannello in
+alto, croce e A/B sotto, Start e Select in fondo. Il corpo della console non
+ha una sagoma propria — niente contorno, niente angoli arrotondati, niente
+ombra: lo sfondo è una tinta piatta uguale su tutta la pagina e sopra ci stanno
+solo schermo e comandi. Rispetto alla console vera lo schermo è molto più grande in proporzione
 al corpo — sull'originale occupa poco più di metà della larghezza, qui i tre
 quarti — perché altrimenti sarebbe illeggibile su un monitor.
 
