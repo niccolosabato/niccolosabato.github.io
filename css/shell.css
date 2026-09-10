@@ -1,8 +1,8 @@
 /* Disposizione della console.
    Verticale, uguale su tutti gli schermi: schermo in alto, comandi sotto.
-   Il corpo non ha una forma propria: niente sagoma, niente angoli arrotondati,
-   niente ombra. Lo sfondo è una tinta piatta uguale su tutta la pagina, e
-   sopra ci stanno solo schermo e comandi.
+   Lo sfondo della pagina è dello stesso grigio della plastica, solo un po' più
+   scuro: il corpo della console ci si stacca sopra grazie all'ombra e a un
+   bordo più chiaro, invece che per contrasto di colore.
 
    `--k` è il lato di un pixel del canvas in pixel veri. Tutto il resto è
    espresso in multipli di --k, quindi la console si ridimensiona intera
@@ -25,7 +25,7 @@ body {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #cbc6bc;   /* tinta piatta, su tutta la pagina */
+  background: #b6b1a7;   /* grigio della plastica, un tono sotto al corpo */
   font-family: "Helvetica Neue", Arial, system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
@@ -43,6 +43,14 @@ body {
   padding: calc(12 * var(--k)) calc(14 * var(--k));
   user-select: none;
   touch-action: manipulation;
+
+  background: linear-gradient(158deg, #e0dcd2 0%, #d2cdc3 42%, #c6c1b6 74%, #bab5aa 100%);
+  border-radius: calc(18 * var(--k)) calc(18 * var(--k)) calc(62 * var(--k)) calc(18 * var(--k));
+  box-shadow:
+    0 calc(14 * var(--k)) calc(34 * var(--k)) calc(-8 * var(--k)) rgba(60, 54, 44, .55),
+    0 calc(3 * var(--k)) calc(8 * var(--k)) calc(-2 * var(--k)) rgba(60, 54, 44, .3),
+    inset 0 calc(2 * var(--k)) 0 rgba(255, 255, 255, .75),
+    inset 0 calc(-3 * var(--k)) 0 rgba(0, 0, 0, .1);
 }
 
 @supports (height: 100dvh) {

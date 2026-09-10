@@ -5,10 +5,10 @@ ci si naviga con i tasti della console — croce direzionale, A, B, Start e
 Select — usabili con mouse, dito o tastiera.
 
 La disposizione è verticale ed è la stessa su tutti gli schermi: pannello in
-alto, croce e A/B sotto, Start e Select in fondo. Il corpo della console non
-ha una sagoma propria — niente contorno, niente angoli arrotondati, niente
-ombra: lo sfondo è una tinta piatta uguale su tutta la pagina e sopra ci stanno
-solo schermo e comandi. Rispetto alla console vera lo schermo è molto più grande in proporzione
+alto, croce e A/B sotto, Start e Select in fondo. Lo sfondo della pagina è
+dello stesso grigio della plastica, solo un tono più scuro: il corpo della
+console ci si stacca sopra grazie all'ombra e a un bordo più chiaro, non per
+contrasto di colore. Rispetto alla console vera lo schermo è molto più grande in proporzione
 al corpo — sull'originale occupa poco più di metà della larghezza, qui i tre
 quarti — perché altrimenti sarebbe illeggibile su un monitor.
 
