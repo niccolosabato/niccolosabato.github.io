@@ -41,7 +41,7 @@ function costruisci() {
     tipo: "azione",
     nome: "CONTATTI",
     apre: creaContatti,
-    anteprima: ["COLLEGAMENTI", "GitHub, email, Telegram"],
+    anteprima: ["COLLEGAMENTI", "GitHub, email, TG, IG"],
   });
   voci.push({ tipo: "audio", nome: "AUDIO" });
   return voci;

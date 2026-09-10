@@ -51,14 +51,20 @@ resta una volta tolte le colonne dei comandi e le due barre:
 
 ```css
 --k: min(
-  (100vw - 2*var(--col) - 2*var(--gap) - 2*var(--bordo)) / 264,
-  (100dvh - var(--chrome) - 2*var(--bordo)) / 258
+  (100vw - 2*var(--col) - 2*var(--gap) - 2*var(--bordo)) / 306,
+  (100dvh - var(--chrome) - 2*var(--bordo)) / 242
 );
 ```
 
-Da qui derivano pannello, cornice, LED e didascalia: lo schermo resta sempre il
-più grande che ci sta. Su una finestra da 1440x900 il pannello arriva a 638px,
-con il testo a 21px.
+I due numeri sono le proporzioni della cornice: 306 di larghezza (bordo,
+striscia del LED, stacco, schermo, bordo) per 242 di altezza. Da lì derivano
+pannello, cornice e LED, e lo schermo resta sempre il più grande che ci sta.
+Su una finestra da 1440x900 arriva a 666px, con il testo a 22px.
+
+Come sull'originale la cornice è più larga a sinistra, perché lì stanno il LED
+rosso e la scritta BATTERY. Su schermi stretti la scritta sparisce e la
+striscia si assottiglia, altrimenti si mangerebbe un sesto della larghezza
+dello schermo.
 
 Il prezzo è che il testo del canvas non è selezionabile né leggibile dagli
 screen reader. È una perdita accettata a monte: questo sito non insegue né i

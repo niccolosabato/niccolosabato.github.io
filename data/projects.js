@@ -15,19 +15,6 @@
 
 export const PROGETTI = [
   {
-    id: "indovinaquando",
-    nome: "IndovinaQuando",
-    tipo: "GIOCO WEB",
-    riga: "Indovina l'anno esatto",
-    descrizione:
-      "Leggi un evento storico e indovini in che anno è successo, muovendo un cursore sulla linea del tempo. Cinque round, cento punti al massimo per round. Gli eventi sono scritti a mano, più altri presi da Wikipedia.",
-    stack: ["JS", "HTML", "CSS"],
-    link: [
-      { label: "GIOCA", url: "https://niccolosabato.github.io/IndovinaQuando/" },
-      { label: "CODICE", url: "https://github.com/niccolosabato/IndovinaQuando" },
-    ],
-  },
-  {
     id: "eduscout",
     nome: "EduScout",
     tipo: "DASHBOARD + ML",
@@ -41,6 +28,19 @@ export const PROGETTI = [
     ],
   },
   {
+    id: "indovinaquando",
+    nome: "IndovinaQuando",
+    tipo: "GIOCO WEB",
+    riga: "Indovina l'anno esatto",
+    descrizione:
+      "Leggi un evento storico e indovini in che anno è successo, muovendo un cursore sulla linea del tempo. Cinque round, cento punti al massimo per round. Gli eventi sono scritti a mano, più altri presi da Wikipedia.",
+    stack: ["JS", "HTML", "CSS"],
+    link: [
+      { label: "GIOCA", url: "https://niccolosabato.github.io/IndovinaQuando/" },
+      { label: "CODICE", url: "https://github.com/niccolosabato/IndovinaQuando" },
+    ],
+  },
+  {
     id: "openfit",
     nome: "OpenFit",
     tipo: "APP ANDROID",
@@ -49,6 +49,7 @@ export const PROGETTI = [
       "Diario per la sala pesi: registri le serie mentre le fai, il recupero è cronometrato e i carichi della volta prima restano sotto gli occhi. I dati stanno solo sul telefono, senza account e senza server.",
     stack: ["Expo", "React Native", "SQLite"],
     link: [
+      { label: "SCARICA APK", url: "https://drive.google.com/file/d/1s1-JVQlThaO0tVA2P2YBSkh4ud9F3JK2/view" },
       { label: "CODICE", url: "https://github.com/niccolosabato/OpenFit-App" },
     ],
   },
