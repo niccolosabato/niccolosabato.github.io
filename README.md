@@ -4,10 +4,11 @@ Sito personale in stile Game Boy. I contenuti stanno dentro uno schermo LCD e
 ci si naviga con i tasti della console — croce direzionale, A, B, Start e
 Select — usabili con mouse, dito o tastiera.
 
-Non si vede tutta la console: si vedono lo schermo, grande, e i comandi
-attorno. Su finestre larghe la croce sta a sinistra e A/B a destra, così il
-pannello si prende tutta l'altezza; sotto i 760px i comandi scendono sotto lo
-schermo.
+La console è verticale, com'era il Game Boy, e la disposizione è la stessa su
+tutti gli schermi: pannello in alto, croce e A/B sotto, Start e Select in
+fondo. Rispetto alla console vera lo schermo è molto più grande in proporzione
+al corpo — sull'originale occupa poco più di metà della larghezza, qui i tre
+quarti — perché altrimenti sarebbe illeggibile su un monitor.
 
 Live: <https://niccolosabato.github.io>
 
@@ -46,20 +47,19 @@ netti a qualunque fattore di scala, anche frazionario, come fa un emulatore.
 Con un `<div>` scalato via `transform` il testo sarebbe risultato sfocato a
 ogni scala non intera.
 
-Quanto grande sia un pixel lo decide `--k`, calcolato in CSS dallo spazio che
-resta una volta tolte le colonne dei comandi e le due barre:
+Quanto grande sia un pixel lo decide `--k`, e da lì deriva **tutto il resto**:
+corpo, cornice, tasti, altoparlante, dimensioni dei caratteri. Si ridimensiona
+la console intera cambiando quel solo numero.
 
 ```css
---k: min(
-  (100vw - 2*var(--col) - 2*var(--gap) - 2*var(--bordo)) / 306,
-  (100dvh - var(--chrome) - 2*var(--bordo)) / 242
-);
+--k: min((100vw - 20px) / 334, (100dvh - 20px) / 504);
 ```
 
-I due numeri sono le proporzioni della cornice: 306 di larghezza (bordo,
-striscia del LED, stacco, schermo, bordo) per 242 di altezza. Da lì derivano
-pannello, cornice e LED, e lo schermo resta sempre il più grande che ci sta.
-Su una finestra da 1440x900 arriva a 666px, con il testo a 22px.
+I due numeri sono le proporzioni del corpo: 334 di larghezza per 504 di
+altezza, cioè la somma delle bande messe una sopra l'altra. Sono scritte per
+esteso in cima a `css/shell.css`, così si vede da dove escono.
+
+Su una finestra da 1440x900 lo schermo arriva a 419px, con il testo a 14px.
 
 Come sull'originale la cornice è più larga a sinistra, perché lì stanno il LED
 rosso e la scritta BATTERY. Su schermi stretti la scritta sparisce e la

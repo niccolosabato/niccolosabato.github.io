@@ -21,7 +21,18 @@
     <div class="wordmark"><i>sabato</i><b>PORTFOLIO</b><sup>&reg;</sup></div>
   </div>
 
-  <div class="stage">
+  <!-- Pannello scuro e schermo -->
+  <div class="panel">
+    <div class="panel-side">
+      <span class="led-dot" id="led"></span>
+      <span class="led-label">BATTERY</span>
+    </div>
+    <div class="lcd">
+      <canvas id="screen" width="240" height="216"></canvas>
+    </div>
+  </div>
+
+  <div class="controls">
 
     <!-- Croce direzionale -->
     <div class="pad-col">
@@ -33,17 +44,6 @@
         <button class="dpad-hit down"  data-btn="down"  type="button" aria-label="Giù"></button>
         <button class="dpad-hit left"  data-btn="left"  type="button" aria-label="Sinistra"></button>
         <button class="dpad-hit right" data-btn="right" type="button" aria-label="Destra"></button>
-      </div>
-    </div>
-
-    <!-- Pannello scuro e schermo -->
-    <div class="panel">
-      <div class="panel-side">
-        <span class="led-dot" id="led"></span>
-        <span class="led-label">BATTERY</span>
-      </div>
-      <div class="lcd">
-        <canvas id="screen" width="240" height="216"></canvas>
       </div>
     </div>
 
