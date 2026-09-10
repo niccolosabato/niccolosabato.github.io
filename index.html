@@ -11,25 +11,37 @@
 
 <div class="deck" id="console">
 
-  <div class="topbar">
-    <div class="power">
-      <button class="power-slot" id="power" type="button" aria-label="Accensione">
-        <span class="power-knob"></span>
-      </button>
-      <span class="power-label">◄ OFF <span>&#9679;</span> ON ►</span>
-    </div>
-    <div class="wordmark"><i>sabato</i><b>PORTFOLIO</b><sup>&reg;</sup></div>
+  <!-- Labbro superiore: interruttore, solco orizzontale e i due solchi
+       verticali vicino agli angoli. -->
+  <div class="lip">
+    <button class="power" id="power" type="button" aria-label="Accensione">
+      <span class="power-rail"><span class="power-knob"></span></span>
+      <span class="power-plate">&#9668;OFF<span>&#9679;</span>ON&#9658;</span>
+    </button>
+    <i class="lip-seam" aria-hidden="true"></i>
+    <i class="lip-notch l" aria-hidden="true"></i>
+    <i class="lip-notch r" aria-hidden="true"></i>
   </div>
 
-  <!-- Pannello scuro e schermo -->
+  <!-- Cornice e schermo -->
   <div class="panel">
-    <div class="panel-side">
-      <span class="led-dot" id="led"></span>
-      <span class="led-label">BATTERY</span>
+    <div class="panel-top">
+      <span class="strip long"><i></i><i></i></span>
+      <span class="strip short"><i></i><i></i></span>
     </div>
-    <div class="lcd">
-      <canvas id="screen" width="240" height="216"></canvas>
+    <div class="panel-body">
+      <div class="panel-side">
+        <span class="led-dot" id="led"></span>
+        <span class="led-label">BATTERY</span>
+      </div>
+      <div class="lcd">
+        <canvas id="screen" width="240" height="216"></canvas>
+      </div>
     </div>
+  </div>
+
+  <div class="brandbar">
+    <div class="wordmark"><i>sabato</i><b>PORTFOLIO</b><sup>&reg;</sup></div>
   </div>
 
   <div class="controls">
