@@ -373,9 +373,39 @@ body {
     background: none;
     border-radius: 0;
     box-shadow: none;
+    /* A schermo pieno lo spazio che avanza non va lasciato ai bordi, altrimenti
+       logotipo e altoparlante restano a mezz'aria in mezzo allo schermo. La
+       larghezza del pannello è già al massimo — la decide la larghezza della
+       finestra — quindi l'unica cosa che può crescere è il vuoto. Se lo si
+       divide in parti uguali fra le bande si aprono tre buchi; darlo tutto
+       alla fascia dei comandi, che i tasti riempiono al centro, tiene lo
+       schermo in alto e Start/Select in fondo. */
+    justify-content: flex-start;
   }
 
+  .controls { flex: 1 1 auto; height: auto; min-height: calc(96 * var(--k)); }
+
   .topbar, .controls, .bottombar { width: calc(var(--corpo) * var(--k)); }
+}
+
+/* ---------- finestre molto basse ---------- */
+
+/* Un telefono ruotato in orizzontale è largo ma altissimo pochi centinaia di
+   pixel: con la disposizione verticale lo schermo scenderebbe sotto i 200px e
+   il testo a 6px, illeggibile. Qui si smette di far entrare tutto nella
+   finestra: la console si dimensiona sulla larghezza e la pagina scorre. */
+@media (orientation: landscape) and (max-height: 520px) {
+  body {
+    overflow-y: auto;
+    align-items: start;
+  }
+
+  .deck {
+    --k: min((100vw - 20px) / 334, 1.4px);
+    height: auto;
+    padding-top: calc(16 * var(--k));
+    padding-bottom: calc(16 * var(--k));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
