@@ -1,6 +1,7 @@
-/* Pannello LCD: il canvas è 240x216 pixel veri, ingranditi via CSS.
+/* Schermo LCD: il canvas è di 240x216 pixel veri, ingranditi via CSS.
    `image-rendering: pixelated` fa un upscaling nearest-neighbour, quindi i
-   pixel restano netti a qualunque fattore di scala, anche frazionario. */
+   pixel restano netti a qualunque fattore di scala, anche frazionario.
+   La dimensione arriva da `--k`, il lato di un pixel, calcolato in shell.css. */
 
 @font-face {
   font-family: "Press Start 2P";
@@ -12,14 +13,14 @@
 
 #screen {
   display: block;
-  width: 240em;
-  height: 216em;
+  width: calc(240 * var(--k));
+  height: calc(216 * var(--k));
   image-rendering: pixelated;
 }
 
 /* Console spenta: lo schermo si smorza. */
-.console.off .lcd { filter: brightness(.35) saturate(.4); }
-.console.off #screen { opacity: .25; }
+.deck.off .lcd { filter: brightness(.35) saturate(.4); }
+.deck.off #screen { opacity: .25; }
 
 .lcd { transition: filter .18s ease-out; }
 

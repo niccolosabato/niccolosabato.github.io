@@ -1,8 +1,13 @@
 # Sabato Portfolio
 
-Sito personale a forma di Game Boy. Il guscio della console occupa la pagina, i
-contenuti stanno dentro lo schermo LCD e ci si naviga con i tasti: croce
-direzionale, A, B, Start e Select, usabili con mouse, dito o tastiera.
+Sito personale in stile Game Boy. I contenuti stanno dentro uno schermo LCD e
+ci si naviga con i tasti della console — croce direzionale, A, B, Start e
+Select — usabili con mouse, dito o tastiera.
+
+Non si vede tutta la console: si vedono lo schermo, grande, e i comandi
+attorno. Su finestre larghe la croce sta a sinistra e A/B a destra, così il
+pannello si prende tutta l'altezza; sotto i 760px i comandi scendono sotto lo
+schermo.
 
 Live: <https://niccolosabato.github.io>
 
@@ -15,7 +20,7 @@ compilazione, nessuna chiamata di rete: quello che si vede è tutto nel repo.
 index.html
 check.mjs           controlla che i testi stiano nello schermo
 serve.py            server di sviluppo locale
-css/shell.css       guscio della console
+css/shell.css       plancia: plastica, comandi, disposizione
 css/screen.css      pannello LCD e font
 fonts/              Press Start 2P
 js/main.js          avvio e interruttore
@@ -32,16 +37,28 @@ data/contacts.js    i contatti
 
 ### Le due tecniche di disegno
 
-Il guscio è **CSS**, quindi vettoriale: si ridimensiona con la finestra e resta
-nitido a qualunque scala. Tutta la sua geometria è in `em` sopra un'unica
-variabile `--u`, così l'intera console si ridimensiona cambiando un solo
-numero.
+La plastica e i comandi sono **CSS**, quindi vettoriali: si ridimensionano con
+la finestra e restano nitidi a qualunque scala. Niente immagini.
 
 Lo schermo è un **canvas di 240x216 pixel veri**, ingrandito dal CSS con
 `image-rendering: pixelated`. L'ingrandimento nearest-neighbour tiene i pixel
 netti a qualunque fattore di scala, anche frazionario, come fa un emulatore.
 Con un `<div>` scalato via `transform` il testo sarebbe risultato sfocato a
 ogni scala non intera.
+
+Quanto grande sia un pixel lo decide `--k`, calcolato in CSS dallo spazio che
+resta una volta tolte le colonne dei comandi e le due barre:
+
+```css
+--k: min(
+  (100vw - 2*var(--col) - 2*var(--gap) - 2*var(--bordo)) / 264,
+  (100dvh - var(--chrome) - 2*var(--bordo)) / 258
+);
+```
+
+Da qui derivano pannello, cornice, LED e didascalia: lo schermo resta sempre il
+più grande che ci sta. Su una finestra da 1440x900 il pannello arriva a 638px,
+con il testo a 21px.
 
 Il prezzo è che il testo del canvas non è selezionabile né leggibile dagli
 screen reader. È una perdita accettata a monte: questo sito non insegue né i
