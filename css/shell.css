@@ -32,12 +32,14 @@ body {
 
 .deck {
   --ink: #2f2a63;
+  --corpo: 306;   /* larghezza del pannello in unità di --k */
   --k: min((100vw - 20px) / 334, (100vh - 20px) / 504);
 
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: calc(334 * var(--k));
   height: calc(504 * var(--k));
   padding: calc(12 * var(--k)) calc(14 * var(--k));
@@ -136,7 +138,7 @@ body {
 .panel {
   flex: 0 0 auto;
   margin-top: calc(10 * var(--k));
-  width: calc(306 * var(--k));
+  width: calc(var(--corpo) * var(--k));
   height: calc(242 * var(--k));
   padding: calc(12 * var(--k)) calc(12 * var(--k)) calc(14 * var(--k)) calc(8 * var(--k));
   display: flex;
@@ -328,7 +330,7 @@ body {
 .dpad.pressed-left .dpad-arm.h,
 .dpad.pressed-right .dpad-arm.h { filter: brightness(1.3); }
 
-/* ---------- schermi stretti ---------- */
+/* ---------- schermi stretti: questione di spazio ---------- */
 
 /* La disposizione non cambia. Sparisce solo la scritta BATTERY e la striscia
    si assottiglia: su un telefono si mangerebbe un sesto della larghezza dello
@@ -337,6 +339,7 @@ body {
    corpo     = 10 + 286 + 10 = 306 */
 @media (max-width: 700px) {
   .deck {
+    --corpo: 286;
     --k: min((100vw - 12px) / 306, (100vh - 12px) / 504);
     width: calc(306 * var(--k));
     padding-left: calc(10 * var(--k));
@@ -347,10 +350,32 @@ body {
     .deck { --k: min((100vw - 12px) / 306, (100dvh - 12px) / 504); }
   }
 
-  .panel { width: calc(286 * var(--k)); }
   .panel-side { width: calc(16 * var(--k)); padding-top: calc(24 * var(--k)); }
   .led-label { display: none; }
   .pad-col, .ab-col { width: calc(92 * var(--k)); }
+}
+
+/* ---------- telefono o finestra verticale: questione di stile ---------- */
+
+/* Qui la sagoma della console non ha senso: non c'è spazio attorno a cui
+   staccarsi, e un corpo delimitato dentro uno schermo già stretto sembra un
+   riquadro appiccicato. La plastica riempie tutto e restano solo schermo e
+   comandi. Le bande si allineano al pannello, altrimenti su uno schermo largo
+   in verticale croce e tasti finirebbero ai bordi. */
+@media (max-width: 700px), (orientation: portrait) {
+  body { background: #cbc6bc; }
+
+  .deck {
+    width: 100%;
+    height: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .topbar, .controls, .bottombar { width: calc(var(--corpo) * var(--k)); }
 }
 
 @media (prefers-reduced-motion: reduce) {

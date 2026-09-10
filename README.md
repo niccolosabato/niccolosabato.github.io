@@ -5,10 +5,14 @@ ci si naviga con i tasti della console — croce direzionale, A, B, Start e
 Select — usabili con mouse, dito o tastiera.
 
 La disposizione è verticale ed è la stessa su tutti gli schermi: pannello in
-alto, croce e A/B sotto, Start e Select in fondo. Lo sfondo della pagina è
-dello stesso grigio della plastica, solo un tono più scuro: il corpo della
-console ci si stacca sopra grazie all'ombra e a un bordo più chiaro, non per
-contrasto di colore. Rispetto alla console vera lo schermo è molto più grande in proporzione
+alto, croce e A/B sotto, Start e Select in fondo.
+
+Cambia solo la cornice attorno. Su una finestra orizzontale la console ha una
+sagoma con gli angoli del Game Boy, staccata dal fondo dall'ombra e da un bordo
+chiaro — lo sfondo è lo stesso grigio della plastica, un tono più scuro. Su
+telefono, o su una finestra verticale, la sagoma sparisce e la plastica riempie
+lo schermo: lì non c'è spazio attorno a cui staccarsi, e un corpo delimitato
+dentro uno schermo già stretto sembrerebbe un riquadro appiccicato. Rispetto alla console vera lo schermo è molto più grande in proporzione
 al corpo — sull'originale occupa poco più di metà della larghezza, qui i tre
 quarti — perché altrimenti sarebbe illeggibile su un monitor.
 
