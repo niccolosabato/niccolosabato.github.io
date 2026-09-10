@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sabato Portfolio</title>
+<link rel="stylesheet" href="css/shell.css">
+<link rel="stylesheet" href="css/screen.css">
+</head>
+<body>
+
+<div class="console" id="console">
+
+  <!-- Interruttore di accensione, bordo superiore sinistro -->
+  <div class="power">
+    <button class="power-slot" id="power" type="button" aria-label="Accensione">
+      <span class="power-knob"></span>
+    </button>
+    <span class="power-label">◄ OFF <span>&#9679;</span> ON ►</span>
+  </div>
+
+  <!-- Pannello scuro attorno all'LCD -->
+  <div class="panel">
+    <div class="led">
+      <span class="led-dot" id="led"></span>
+      <span class="led-label">BATTERY</span>
+    </div>
+    <div class="lcd">
+      <canvas id="screen" width="240" height="216"></canvas>
+    </div>
+    <div class="panel-caption">DOT MATRIX WITH VANILLA JAVASCRIPT</div>
+  </div>
+
+  <div class="wordmark">
+    <i>sabato</i><b>PORTFOLIO</b><sup>&reg;</sup>
+  </div>
+
+  <!-- Croce direzionale -->
+  <div class="dpad">
+    <span class="dpad-cross"></span>
+    <span class="dpad-dot"></span>
+    <button class="dpad-hit up"    data-btn="up"    type="button" aria-label="Su"></button>
+    <button class="dpad-hit down"  data-btn="down"  type="button" aria-label="Giù"></button>
+    <button class="dpad-hit left"  data-btn="left"  type="button" aria-label="Sinistra"></button>
+    <button class="dpad-hit right" data-btn="right" type="button" aria-label="Destra"></button>
+  </div>
+
+  <!-- Tasti azione -->
+  <div class="ab">
+    <button class="round b" data-btn="b" type="button" aria-label="B"></button>
+    <button class="round a" data-btn="a" type="button" aria-label="A"></button>
+    <span class="ab-label lb">B</span>
+    <span class="ab-label la">A</span>
+  </div>
+
+  <!-- Start e Select -->
+  <div class="pills">
+    <button class="pill" data-btn="select" type="button" aria-label="Select"></button>
+    <button class="pill" data-btn="start"  type="button" aria-label="Start"></button>
+    <span class="pill-label ls">SELECT</span>
+    <span class="pill-label lt">START</span>
+  </div>
+
+  <!-- Altoparlante -->
+  <div class="speaker">
+    <i></i><i></i><i></i><i></i><i></i><i></i>
+  </div>
+
+  <!-- Rotelle volume (sinistra) e contrasto (destra) -->
+  <div class="dial dial-left"></div>
+  <div class="dial dial-right"></div>
+
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

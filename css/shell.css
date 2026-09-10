@@ -1,0 +1,320 @@
+/* Guscio della console.
+   Tutta la geometria è espressa in `em`: `.console` imposta `font-size: var(--u)`,
+   quindi 1em = 1 unità logica del disegno, che è largo 460 e alto 756 unità.
+   Cambiando --u si ridimensiona l'intera console senza toccare nient'altro.
+
+   ⚠️ Trappola: su un elemento che ridefinisce la propria `font-size`, le unità
+   `em` di top/left/width si risolvono contro QUELLA font-size, non contro
+   quella ereditata. Nelle etichette di testo posizionate va quindi usato
+   `calc(var(--u) * N)`, non `Nem`. */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(120% 90% at 50% 0%, #2b2e35 0%, #15171a 70%);
+  font-family: "Helvetica Neue", Arial, system-ui, sans-serif;
+  color: #2f2a63;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.console {
+  --u: min((100vw - 16px) / 460, (100vh - 16px) / 756);
+  --plastic-dark: #2e2e34;
+  --ink: #2f2a63;
+
+  position: relative;
+  font-size: var(--u);
+  width: 460em;
+  height: 756em;
+  user-select: none;
+  touch-action: manipulation;
+
+  background:
+    linear-gradient(158deg, #dcd8ce 0%, #cbc6bc 38%, #bdb8ad 72%, #aca79c 100%);
+  border-radius: 26em 26em 145em 26em;
+  box-shadow:
+    0 40em 70em -24em rgba(0, 0, 0, .75),
+    inset 0 3em 0 rgba(255, 255, 255, .6),
+    inset 0 -4em 0 rgba(0, 0, 0, .14),
+    inset 3em 0 0 rgba(255, 255, 255, .3),
+    inset -3em 0 0 rgba(0, 0, 0, .08);
+}
+
+@supports (height: 100dvh) {
+  .console { --u: min((100vw - 16px) / 460, (100dvh - 16px) / 756); }
+}
+
+.console button {
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* ---------- interruttore ---------- */
+
+.power { position: absolute; left: 44em; top: 14em; display: flex; align-items: center; gap: 10em; }
+
+.power-slot {
+  position: relative;
+  width: 76em;
+  height: 20em;
+  border-radius: 4em;
+  background: linear-gradient(#a9a49a, #c2bdb3);
+  box-shadow: inset 0 2em 3em rgba(0, 0, 0, .4);
+}
+
+.power-knob {
+  position: absolute;
+  top: 2em;
+  left: 2em;
+  width: 34em;
+  height: 16em;
+  border-radius: 3em;
+  background: linear-gradient(#8d8880, #6d6961);
+  box-shadow: inset 0 1em 0 rgba(255, 255, 255, .35), 0 1em 2em rgba(0, 0, 0, .35);
+  transition: left .12s ease-out;
+}
+
+.console.off .power-knob { left: 40em; }
+
+.power-label {
+  font-size: 11em;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #6f6a62;
+}
+
+.power-label span { font-size: .7em; vertical-align: .15em; }
+
+/* ---------- pannello scuro e LCD ---------- */
+
+.panel {
+  position: absolute;
+  left: 56em;
+  top: 66em;
+  width: 348em;
+  height: 292em;
+  border-radius: 12em 12em 40em 40em;
+  background: linear-gradient(165deg, #4d514f 0%, #343836 45%, #232625 100%);
+  box-shadow:
+    inset 0 3em 6em rgba(0, 0, 0, .55),
+    inset 0 -2em 0 rgba(255, 255, 255, .07),
+    0 2em 0 rgba(255, 255, 255, .45);
+}
+
+.led { position: absolute; left: 6em; top: 128em; width: 44em; text-align: center; }
+
+.led-dot {
+  display: block;
+  width: 13em;
+  height: 13em;
+  margin: 0 auto 6em;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff9a94, #c0201c 60%, #6d0f0d);
+  box-shadow: 0 0 10em 2em rgba(220, 40, 30, .55);
+}
+
+.console.off .led-dot {
+  background: radial-gradient(circle at 35% 30%, #6b4a48, #47201f 60%, #2c1211);
+  box-shadow: none;
+}
+
+.led-label {
+  font-size: 7.5em;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: #9aa19d;
+}
+
+.lcd {
+  position: absolute;
+  left: 54em;
+  top: 46em;
+  width: 240em;
+  height: 216em;
+  background: #8ba05a;
+  box-shadow: inset 0 0 0 2em rgba(0, 0, 0, .4), inset 0 2em 6em rgba(0, 0, 0, .35);
+}
+
+.panel-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--u) * 270);
+  text-align: center;
+  font-size: 10em;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #8f9694;
+}
+
+/* ---------- logotipo ---------- */
+
+.wordmark {
+  position: absolute;
+  left: 110em;
+  top: 368em;
+  display: flex;
+  align-items: baseline;
+  gap: 9em;
+  color: var(--ink);
+}
+
+.wordmark i { font-size: 26em; font-style: italic; font-weight: 700; letter-spacing: -.02em; }
+.wordmark b { font-size: 37em; font-weight: 900; letter-spacing: -.035em; }
+.wordmark sup { font-size: 11em; font-weight: 700; align-self: flex-start; }
+
+/* ---------- croce direzionale ---------- */
+
+.dpad { position: absolute; left: 32em; top: 430em; width: 140em; height: 140em; }
+
+.dpad-cross,
+.dpad-cross::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 7em;
+  background: linear-gradient(#3a3a41, #24242a);
+  box-shadow:
+    inset 0 2em 0 rgba(255, 255, 255, .14),
+    inset 0 -3em 0 rgba(0, 0, 0, .55),
+    0 4em 7em rgba(0, 0, 0, .4);
+}
+
+.dpad-cross { width: 108em; height: 38em; transform: translate(-50%, -50%); }
+.dpad-cross::after { content: ""; width: 38em; height: 108em; transform: translate(-50%, -50%); box-shadow: inset 0 2em 0 rgba(255,255,255,.14), inset 0 -3em 0 rgba(0,0,0,.55); }
+
+.dpad-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18em;
+  height: 18em;
+  margin: -9em 0 0 -9em;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #2a2a30, #1b1b20);
+  box-shadow: inset 0 2em 3em rgba(0, 0, 0, .6);
+}
+
+.dpad-hit { position: absolute; background: transparent; }
+.dpad-hit.up    { left: 51em; top: 13em;  width: 38em; height: 57em; }
+.dpad-hit.down  { left: 51em; top: 70em;  width: 38em; height: 57em; }
+.dpad-hit.left  { left: 13em; top: 51em;  width: 57em; height: 38em; }
+.dpad-hit.right { left: 70em; top: 51em;  width: 57em; height: 38em; }
+
+/* ---------- tasti A e B ---------- */
+
+.ab { position: absolute; left: 280em; top: 450em; width: 165em; height: 115em; }
+
+.round {
+  position: absolute;
+  width: 52em;
+  height: 52em;
+  border-radius: 50%;
+  background: linear-gradient(160deg, #b8496e 0%, #8d2f4f 100%);
+  box-shadow:
+    inset 0 3em 0 rgba(255, 255, 255, .3),
+    inset 0 -4em 0 rgba(0, 0, 0, .35),
+    0 5em 8em rgba(0, 0, 0, .4);
+}
+
+.round.b { left: 12em; top: 36em; }
+.round.a { left: 76em; top: 8em; }
+
+.ab-label { position: absolute; font-size: 15em; font-weight: 700; color: var(--ink); }
+.ab-label.lb { left: calc(var(--u) * 30); top: calc(var(--u) * 94); }
+.ab-label.la { left: calc(var(--u) * 94); top: calc(var(--u) * 66); }
+
+/* ---------- start e select ---------- */
+
+.pills { position: absolute; left: 130em; top: 540em; width: 220em; height: 110em; }
+
+.pill {
+  position: absolute;
+  width: 66em;
+  height: 20em;
+  border-radius: 10em;
+  transform: rotate(-24deg);
+  background: linear-gradient(#9a958c, #6f6a62);
+  box-shadow:
+    inset 0 2em 0 rgba(255, 255, 255, .25),
+    inset 0 -2em 0 rgba(0, 0, 0, .3),
+    0 3em 5em rgba(0, 0, 0, .35);
+}
+
+.pill:nth-of-type(1) { left: 13em; top: 54em; }
+.pill:nth-of-type(2) { left: 99em; top: 16em; }
+
+.pill-label {
+  position: absolute;
+  font-size: 10.5em;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--ink);
+  transform: rotate(-24deg);
+}
+
+.pill-label.ls { left: calc(var(--u) * 16); top: calc(var(--u) * 76); }
+.pill-label.lt { left: calc(var(--u) * 103); top: calc(var(--u) * 38); }
+
+/* ---------- altoparlante ---------- */
+
+.speaker { position: absolute; left: 306em; top: 612em; width: 124em; height: 100em; }
+
+.speaker i {
+  position: absolute;
+  top: 12em;
+  width: 10em;
+  height: 74em;
+  border-radius: 5em;
+  transform: rotate(-30deg);
+  background: linear-gradient(#7e7a72, #948f86);
+  box-shadow: inset 0 2em 3em rgba(0, 0, 0, .7), 0 1em 0 rgba(255, 255, 255, .45);
+}
+
+.speaker i:nth-child(1) { left: 4em; }
+.speaker i:nth-child(2) { left: 23em; }
+.speaker i:nth-child(3) { left: 42em; }
+.speaker i:nth-child(4) { left: 61em; }
+.speaker i:nth-child(5) { left: 80em; }
+.speaker i:nth-child(6) { left: 99em; }
+
+/* ---------- rotelle volume e contrasto ---------- */
+
+.dial {
+  position: absolute;
+  top: 412em;
+  width: 13em;
+  height: 58em;
+  background: repeating-linear-gradient(#8d8880 0 2em, #b0aba1 2em 4em);
+  box-shadow: inset 0 0 4em rgba(0, 0, 0, .5);
+}
+
+.dial-left  { left: -5em;  border-radius: 5em 0 0 5em; }
+.dial-right { right: -5em; border-radius: 0 5em 5em 0; }
+
+/* ---------- feedback alla pressione ---------- */
+
+.round:active, .round.pressed,
+.pill:active, .pill.pressed { filter: brightness(.85); }
+
+.round:active, .round.pressed { transform: translateY(2em); }
+.pill:active, .pill.pressed { transform: rotate(-24deg) translateY(2em); }
+
+.dpad.pressed-up .dpad-cross,
+.dpad.pressed-down .dpad-cross,
+.dpad.pressed-left .dpad-cross,
+.dpad.pressed-right .dpad-cross { filter: brightness(1.25); }
+
+@media (prefers-reduced-motion: reduce) {
+  .power-knob { transition: none; }
+}

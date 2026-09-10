@@ -1,0 +1,28 @@
+/* Pannello LCD: il canvas è 240x216 pixel veri, ingranditi via CSS.
+   `image-rendering: pixelated` fa un upscaling nearest-neighbour, quindi i
+   pixel restano netti a qualunque fattore di scala, anche frazionario. */
+
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("../fonts/press-start-2p.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+#screen {
+  display: block;
+  width: 240em;
+  height: 216em;
+  image-rendering: pixelated;
+}
+
+/* Console spenta: lo schermo si smorza. */
+.console.off .lcd { filter: brightness(.35) saturate(.4); }
+.console.off #screen { opacity: .25; }
+
+.lcd { transition: filter .18s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lcd { transition: none; }
+}
