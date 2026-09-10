@@ -347,6 +347,24 @@ body {
 
 .ab { position: relative; width: 100%; aspect-ratio: 1; }
 
+/* Sulla foto i due tasti stanno dentro una conca ovale appena accennata,
+   inclinata come il loro asse: si legge solo per il filo di luce sul bordo
+   basso e l'ombra su quello alto. Misure prese dalla foto: asse maggiore
+   quanto i due tasti più un margine, minore poco più del diametro. */
+.ab-pad {
+  position: absolute;
+  left: 48%;
+  top: 51%;
+  width: 112%;
+  height: 56%;
+  transform: translate(-50%, -50%) rotate(-27deg);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow:
+    inset 0 calc(5 * var(--k)) calc(11 * var(--k)) calc(-4 * var(--k)) rgba(0, 0, 0, .06),
+    inset 0 calc(-5 * var(--k)) calc(11 * var(--k)) calc(-4 * var(--k)) rgba(255, 255, 255, .22);
+}
+
 .round {
   position: absolute;
   width: 44%;
@@ -363,11 +381,14 @@ body {
 .round.a { left: 52%; top: 16%; }
 
 /* Sulla foto le lettere sono inclinate come l'asse dei due tasti e stanno
-   sotto a destra del proprio tasto, alla stessa distanza tutte e due. */
+   sotto a destra del proprio tasto, alla stessa distanza tutte e due.
+   Il corpo viene dalla foto; lo spessore no, lì l'asta è più sottile, ma in
+   grassetto si leggono meglio ai corpi piccoli. */
 .ab-label {
   position: absolute;
-  font-size: calc(11 * var(--k));
+  font-size: calc(11.5 * var(--k));
   font-weight: 700;
+  letter-spacing: .04em;
   color: var(--ink);
   transform: translate(-50%, -50%) rotate(-25deg);
 }
@@ -388,15 +409,25 @@ body {
   padding-left: calc(78 * var(--k));
 }
 
+/* Sulla foto le due pastiglie sono inclinate ma **appoggiate alla stessa
+   riga**: i loro centri stanno alla stessa altezza, a 60 unità di distanza.
+   Ruotare il gruppo intero invece che le due pastiglie una per una alzava
+   START sopra SELECT, che sull'originale non succede. */
 .pills {
   display: flex;
-  gap: calc(8 * var(--k));
-  transform: rotate(-24deg);
+  align-items: flex-start;
+  gap: calc(12 * var(--k));
 }
 
 /* L'etichetta parte dal bordo sinistro della pastiglia e sborda a destra,
    come sulla foto: non è centrata sotto. */
-.pill-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: calc(3 * var(--k)); }
+.pill-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(6 * var(--k));
+  transform: rotate(-23deg);
+}
 
 .pill {
   width: calc(46 * var(--k));
@@ -409,7 +440,15 @@ body {
     0 calc(2 * var(--k)) calc(4 * var(--k)) rgba(0, 0, 0, .35);
 }
 
-.pill-label { font-size: calc(8.5 * var(--k)); font-weight: 700; letter-spacing: .03em; color: var(--ink); }
+/* Il corpo viene dalla foto — le lettere sono alte quanto quelle di A e B —
+   lo spessore no: sull'originale l'asta è più sottile. */
+.pill-label {
+  margin-left: calc(4 * var(--k));
+  font-size: calc(10.5 * var(--k));
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--ink);
+}
 
 /* Sulla foto le sei fessure sono perpendicolari a un asse che sale verso
    destra di 25°: si ottengono con barrette verticali e il gruppo intero
