@@ -2,7 +2,7 @@
 
 // L'email è spezzata in due e ricomposta a runtime. Non è una protezione
 // seria, ma toglie di mezzo i raccoglitori di indirizzi più pigri.
-const EMAIL = ["niccolo.s04", "gmail.com"];
+const EMAIL = ["ncsabato", "gmail.com"];
 
 export const CONTATTI = [
   {
