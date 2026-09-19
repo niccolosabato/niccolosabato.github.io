@@ -9,6 +9,7 @@ import { PROGETTI } from "../../data/projects.js";
 import { piede, riquadro, bloccoCentrato } from "./ui.js";
 import { creaProgetto } from "./project.js";
 import { creaContatti } from "./contacts.js";
+import { creaCurriculum } from "./cv.js";
 import { salvaPreferenze } from "../prefs.js";
 
 const PRIMA_RIGA = 2;
@@ -37,6 +38,12 @@ function costruisci() {
 
   voci.push({ tipo: "vuoto" });
   voci.push({ tipo: "filetto" });
+  voci.push({
+    tipo: "azione",
+    nome: "CURRICULUM",
+    apre: creaCurriculum,
+    anteprima: ["CV IN PDF", "Formazione ed esperienze"],
+  });
   voci.push({
     tipo: "azione",
     nome: "CONTATTI",
