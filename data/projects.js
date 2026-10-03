@@ -46,10 +46,10 @@ export const PROGETTI = [
     tipo: "APP ANDROID",
     riga: "Diario di allenamento",
     descrizione:
-      "Diario per la sala pesi: registri le serie mentre le fai, il recupero è cronometrato e i carichi della volta prima restano sotto gli occhi. I dati stanno solo sul telefono, senza account e senza server.",
+      "Diario per la sala pesi: registri le serie mentre le fai, il recupero è cronometrato e i carichi della volta prima restano sotto gli occhi. Ora è in test chiuso sul Play Store: scrivimi per entrarci. I dati restano sul telefono.",
     stack: ["Expo", "React Native", "SQLite"],
     link: [
-      { label: "SCARICA APK", url: "https://drive.google.com/file/d/1s1-JVQlThaO0tVA2P2YBSkh4ud9F3JK2/view" },
+      { label: "CONTATTAMI", url: "mailto:ncsabato@gmail.com" },
       { label: "CODICE", url: "https://github.com/niccolosabato/OpenFit-App" },
     ],
   },
