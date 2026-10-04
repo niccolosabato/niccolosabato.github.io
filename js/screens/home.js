@@ -1,6 +1,9 @@
-// Home: è direttamente l'elenco dei contenuti, diviso per sezioni. Sotto,
-// staccate da un filetto, le due voci di servizio. Non c'è un menu prima: si
-// arriva e si sceglie.
+// Home: è direttamente l'elenco dei contenuti, diviso per sezioni. Non c'è un
+// menu prima: si arriva e si sceglie.
+//
+// Lo schermo è diviso in due: in alto scorrono le sezioni dei contenuti
+// (progetti e analisi), in basso CURRICULUM, CONTATTI e AUDIO restano fermi.
+// Il riquadro dell'anteprima chiude in fondo.
 
 import * as S from "../screen.js";
 import * as R from "../router.js";
@@ -13,16 +16,17 @@ import { creaCurriculum } from "./cv.js";
 import { salvaPreferenze } from "../prefs.js";
 
 const PRIMA_RIGA = 2;
-// L'ultima riga utile: il riquadro di anteprima comincia alla riga 16 e il suo
-// bordo sale di 4px dentro la riga 15, quindi la 15 non è utilizzabile.
-const ULTIMA_RIGA = 14;
-const RIGA_ANTEPRIMA = 16;
-const VISIBILI = ULTIMA_RIGA - PRIMA_RIGA + 1;
+const ULTIMA_CONTENUTO = 10;  // ultima riga utile alle sezioni
+const RIGA_FILETTO = 11;      // divide i contenuti dalle voci fisse
+const RIGA_FISSI = 12;        // CURRICULUM, CONTATTI, AUDIO
+const RIGA_ANTEPRIMA = 16;    // il bordo sale di 4px dentro la riga 15
+const VISIBILI = ULTIMA_CONTENUTO - PRIMA_RIGA + 1;
 
 const SELEZIONABILI = new Set(["progetto", "azione", "audio"]);
 
 /** Costruisce l'elenco a partire dai dati: una sezione per ogni valore di
- *  `sezione`, nell'ordine in cui compare in data/projects.js. */
+ *  `sezione`, nell'ordine in cui compare in data/projects.js. Le voci di
+ *  servizio stanno a parte perché non scorrono. */
 function costruisci() {
   const sezioni = new Map();
   for (const p of PROGETTI) {
@@ -31,33 +35,54 @@ function costruisci() {
     sezioni.get(nome).push(p);
   }
 
-  const voci = [];
+  const contenuto = [];
   for (const [nome, elenco] of sezioni) {
-    if (voci.length) voci.push({ tipo: "vuoto" });
-    voci.push({ tipo: "titolo", testo: nome });
-    for (const p of elenco) voci.push({ tipo: "progetto", nome: p.nome, progetto: p });
+    if (contenuto.length) contenuto.push({ tipo: "vuoto" });
+    contenuto.push({ tipo: "titolo", testo: nome });
+    for (const p of elenco) contenuto.push({ tipo: "progetto", nome: p.nome, progetto: p });
   }
 
-  voci.push({ tipo: "vuoto" });
-  voci.push({ tipo: "filetto" });
-  voci.push({
-    tipo: "azione",
-    nome: "CURRICULUM",
-    apre: creaCurriculum,
-    anteprima: ["CV IN PDF", "Formazione ed esperienze"],
-  });
-  voci.push({
-    tipo: "azione",
-    nome: "CONTATTI",
-    apre: creaContatti,
-    anteprima: ["COLLEGAMENTI", "GitHub, email, TG, IG"],
-  });
-  voci.push({ tipo: "audio", nome: "AUDIO" });
-  return voci;
+  const fissi = [
+    {
+      tipo: "azione",
+      nome: "CURRICULUM",
+      apre: creaCurriculum,
+      anteprima: ["CV IN PDF", "Formazione ed esperienze"],
+    },
+    {
+      tipo: "azione",
+      nome: "CONTATTI",
+      apre: creaContatti,
+      anteprima: ["COLLEGAMENTI", "GitHub, email, TG, IG"],
+    },
+    { tipo: "audio", nome: "AUDIO" },
+  ];
+
+  return { contenuto, fissi };
+}
+
+/** Disegna una voce dell'elenco: intestazioni, filetti e voci selezionabili. */
+function disegnaVoce(v, riga, attiva) {
+  if (v.tipo === "vuoto") return;
+  if (v.tipo === "titolo") return S.text(v.testo, 0, riga, 2);
+
+  if (attiva) {
+    S.textInvert("  " + v.nome, 0, riga);
+    S.triangolo(0, riga, "destra", 0);
+  } else {
+    S.text("  " + v.nome, 0, riga, 3);
+  }
+
+  if (v.tipo === "audio") {
+    S.textRight(isMuto() ? "SPENTO" : "ACCESO", riga, 2);
+  }
 }
 
 export function creaHome() {
-  const VOCI = costruisci();
+  const { contenuto, fissi } = costruisci();
+  const VOCI = [...contenuto, ...fissi];
+  const N_CONTENUTO = contenuto.length;
+
   let scelta = VOCI.findIndex((v) => SELEZIONABILI.has(v.tipo));
   let primo = 0;
 
@@ -81,42 +106,42 @@ export function creaHome() {
       S.textCenter("SABATO PORTFOLIO", 0, 3);
       S.sottolinea(0);
 
-      // Se ci sta tutto, il blocco si centra fra intestazione e anteprima;
-      // altrimenti si ancora in alto e scorre.
-      const scorre = VOCI.length > VISIBILI;
-      if (scorre) {
+      const scorre = N_CONTENUTO > VISIBILI;
+      if (scorre && scelta < N_CONTENUTO) {
         if (scelta < primo) primo = scelta;
         if (scelta >= primo + VISIBILI) primo = scelta - VISIBILI + 1;
-      } else {
+        // Se sopra la finestra c'è un'intestazione (o una riga vuota) e la
+        // selezione ci sta ancora, la si tira dentro: tornando in alto si
+        // rivede il titolo della sezione.
+        while (
+          primo > 0 &&
+          !SELEZIONABILI.has(contenuto[primo - 1].tipo) &&
+          scelta <= primo + VISIBILI - 2
+        ) {
+          primo--;
+        }
+        primo = Math.max(0, Math.min(primo, N_CONTENUTO - VISIBILI));
+      } else if (!scorre) {
         primo = 0;
       }
-      const riga0 = scorre ? PRIMA_RIGA : bloccoCentrato(VOCI.length, PRIMA_RIGA, ULTIMA_RIGA);
 
-      VOCI.slice(primo, primo + VISIBILI).forEach((v, k) => {
-        const riga = riga0 + k;
-        const attiva = primo + k === scelta;
+      const riga0 = scorre
+        ? PRIMA_RIGA
+        : bloccoCentrato(N_CONTENUTO, PRIMA_RIGA, ULTIMA_CONTENUTO);
 
-        if (v.tipo === "vuoto") return;
-        if (v.tipo === "filetto") return S.hr(riga, 2);
-        if (v.tipo === "titolo") return S.text(v.testo, 0, riga, 2);
-
-        if (attiva) {
-          S.textInvert("  " + v.nome, 0, riga);
-          S.triangolo(0, riga, "destra", 0);
-        } else {
-          S.text("  " + v.nome, 0, riga, 3);
-        }
-
-        if (v.tipo === "audio") {
-          const valore = isMuto() ? "SPENTO" : "ACCESO";
-          S.textRight(valore, riga, 2);
-        }
+      contenuto.slice(primo, primo + VISIBILI).forEach((v, k) => {
+        disegnaVoce(v, riga0 + k, primo + k === scelta);
       });
 
       if (scorre && primo > 0) S.triangolo(S.COLS - 1, PRIMA_RIGA, "su", 2);
-      if (scorre && primo + VISIBILI < VOCI.length) {
-        S.triangolo(S.COLS - 1, ULTIMA_RIGA, "giu", 2);
+      if (scorre && primo + VISIBILI < N_CONTENUTO) {
+        S.triangolo(S.COLS - 1, ULTIMA_CONTENUTO, "giu", 2);
       }
+
+      S.hr(RIGA_FILETTO, 2);
+      fissi.forEach((v, k) => {
+        disegnaVoce(v, RIGA_FISSI + k, N_CONTENUTO + k === scelta);
+      });
 
       const v = VOCI[scelta];
       let anteprima;
