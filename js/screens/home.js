@@ -13,7 +13,9 @@ import { creaCurriculum } from "./cv.js";
 import { salvaPreferenze } from "../prefs.js";
 
 const PRIMA_RIGA = 2;
-const ULTIMA_RIGA = 15;   // sotto comincia il riquadro di anteprima
+// L'ultima riga utile: il riquadro di anteprima comincia alla riga 16 e il suo
+// bordo sale di 4px dentro la riga 15, quindi la 15 non è utilizzabile.
+const ULTIMA_RIGA = 14;
 const RIGA_ANTEPRIMA = 16;
 const VISIBILI = ULTIMA_RIGA - PRIMA_RIGA + 1;
 
