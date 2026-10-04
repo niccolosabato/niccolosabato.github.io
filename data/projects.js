@@ -90,7 +90,7 @@ export const PROGETTI = [
     tipo: "ANALISI STATISTICA",
     riga: "NEET e competenze",
     descrizione:
-      "Due problemi opposti: al Sud i giovani restano fuori dal lavoro perché il lavoro manca, al Centro-Nord le imprese non trovano profili tecnici. NEET regionali da Eurostat e previsioni Excelsior, con un modello che stima il rischio.",
+      "Due problemi opposti: al Sud i giovani restano fuori dal lavoro perché manca, al Centro-Nord le imprese non trovano profili tecnici. NEET regionali da Eurostat e previsioni Excelsior, con un modello che stima il rischio.",
     stack: ["Eurostat", "Excelsior"],
     link: [
       {
