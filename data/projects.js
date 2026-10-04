@@ -83,6 +83,22 @@ export const PROGETTI = [
       },
     ],
   },
+  {
+    id: "lavoro-giovanile",
+    sezione: "ANALISI",
+    nome: "Giovani e lavoro",
+    tipo: "ANALISI STATISTICA",
+    riga: "NEET e competenze",
+    descrizione:
+      "Due problemi opposti: al Sud i giovani restano fuori dal lavoro perché il lavoro manca, al Centro-Nord le imprese non trovano profili tecnici. NEET regionali da Eurostat e previsioni Excelsior, con un modello che stima il rischio.",
+    stack: ["Eurostat", "Excelsior"],
+    link: [
+      {
+        label: "DOCUMENTO",
+        url: "https://docs.google.com/document/d/1fVb0Rmpoc5o3gcO3UezIQMdw7TZoo4uDyZO_35PK8XU/edit",
+      },
+    ],
+  },
 
   // --- DA COMPILARE ---------------------------------------------------
   // Qui vanno le analisi statistiche, una voce per Google Doc. Servono un
