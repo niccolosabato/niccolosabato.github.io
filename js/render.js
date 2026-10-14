@@ -43,6 +43,7 @@ function sezioneWhoami() {
   const righe = [
     `<p class="versione">${t(PROFILO.utente)}</p>`,
     ...PROFILO.righe.map((r) => `<p>${t(r)}</p>`),
+    `<p class="commento"># clicca su una voce verde per aprirla</p>`,
   ].join("");
   return `<section class="blocco" id="whoami">
     ${rigaComando("whoami")}
@@ -71,13 +72,10 @@ function voceAnalisi(p) {
   </li>`;
 }
 
-function sezioneElenco(id, comando, voci, commento) {
-  const rigaCommento = commento
-    ? `<li class="commento">${t(commento)}</li>`
-    : "";
+function sezioneElenco(id, comando, voci) {
   return `<section class="blocco" id="${t(id)}">
     ${rigaComando(comando)}
-    <ul class="righe elenco">${voci.join("")}${rigaCommento}</ul>
+    <ul class="righe elenco">${voci.join("")}</ul>
   </section>`;
 }
 
@@ -117,14 +115,7 @@ export function vistaHome() {
 
   const sezioni = [sezioneWhoami()];
   if (progetti.length) {
-    sezioni.push(
-      sezioneElenco(
-        "progetti",
-        "ls progetti/",
-        progetti.map(voceProgetto),
-        "# clicca su una voce per entrarci",
-      ),
-    );
+    sezioni.push(sezioneElenco("progetti", "ls progetti/", progetti.map(voceProgetto)));
   }
   if (analisi.length) {
     sezioni.push(sezioneElenco("analisi", "ls analisi/", analisi.map(voceAnalisi)));

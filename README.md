@@ -66,9 +66,10 @@ condivisibile. Le analisi sono link diretti alle pagine sotto `analisi/`.
 
 La grammatica dei colori dichiara cosa si clicca: il salvia è di tutto ciò
 che è cliccabile (nomi in elenco, cv, contatti, azioni, `cd ..`), il grigio
-chiaro è testo e quello attenuato sono note e commenti shell. Sotto
-`ls progetti/` un commento, `# clicca su una voce per entrarci`, spiega che
-lì il clic fa entrare nella voce invece di aprire una pagina.
+chiaro è testo e quello attenuato sono note e commenti shell. Il prompt
+compreso, che è grigio: se fosse verde la pagina sarebbe tutta verde. Sotto
+`whoami` un commento, `# clicca su una voce verde per aprirla`, fa da guida
+a entrambi gli elenchi.
 
 ## Sviluppo
 

@@ -136,11 +136,14 @@ a:hover {
 
 /* ------------------------------------------------------- prompt e righe --- */
 
+/* Il prompt è grigio: i separatori attenuati, utente e host chiari. Il
+   salvia resta solo a ciò che si clicca, altrimenti la pagina diventa
+   tutta verde. */
+.prompt { color: var(--tenue); }
 .prompt b {
-  color: var(--accento);
+  color: var(--luminoso);
   font-weight: 500;
 }
-.prompt .perc { color: var(--tenue); }
 
 .riga-comando {
   margin: 0;
