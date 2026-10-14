@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<!-- Google tag (gtag.js), stesso ID del sito Game Boy -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4P77DPPF9D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4P77DPPF9D');
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sabato Portfolio CLI</title>
+<meta name="description" content="Portfolio di Niccolò Sabato, in stile terminale: progetti software e analisi statistiche.">
+<meta name="theme-color" content="#0c0c0c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230c0c0c'/%3E%3Ctext x='2' y='12.5' font-family='monospace' font-size='11' fill='%239caf88'%3E%26gt;_%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/terminal.css">
+<script>
+  // Prima del primo fotogramma: dice al CSS che JS c'è (i blocchi partono
+  // nascosti e si stampano quando entrano in vista) e se l'utente vuole
+  // meno animazioni (tutto immediato, niente macchina da scrivere).
+  document.documentElement.classList.add("js");
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.documentElement.classList.add("istantaneo");
+  }
+</script>
+</head>
+<body>
+
+<div id="terminale">
+  <h1 class="fuori-schermo">Portfolio di Niccolò Sabato</h1>
+
+  <!-- Righe di avvio, riempite da js/main.js -->
+  <div id="boot" class="blocco" aria-live="off"></div>
+
+  <!-- Le sezioni (whoami, progetti, analisi, cv, contatti) le costruisce
+       js/render.js a partire dai file in data/ -->
+  <main id="contenuto"></main>
+
+  <footer id="fine" class="blocco">
+    <div class="righe">
+      <p class="riga-comando">
+        <span class="prompt"><b>sabato</b>@<b>portfolio</b>:<span class="perc">~</span>$</span>
+        <span class="cursore" aria-hidden="true"></span>
+      </p>
+      <p class="nota-fine">
+        html, css e javascript puri, nessuna dipendenza.
+        <a href="https://niccolosabato.github.io">versione game boy</a>.
+      </p>
+    </div>
+  </footer>
+
+  <noscript>
+    <p class="avviso-noscript">
+      Questo sito ha bisogno di JavaScript: i contenuti vengono costruiti
+      all'apertura a partire dai file in <code>data/</code>.
+    </p>
+  </noscript>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

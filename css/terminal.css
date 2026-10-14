@@ -1,0 +1,334 @@
+/* Sabato Portfolio CLI: la pagina è lo scrollback di una sessione di
+   terminale. Tema scuro, grigi neutri, un solo accento verde salvia.
+   Le animazioni di stampa (macchina da scrivere sui comandi, righe che
+   compaiono in sequenza) sono tutte in CSS: JS aggiunge solo le classi
+   .visto ai blocchi quando entrano in vista e le variabili --n, --t-cmd, --i.
+
+   Stati del documento (classi su <html>, messe dallo script inline in testa):
+   - .js           c'è JavaScript: i blocchi non ancora .visto restano invisibili
+   - .istantaneo   animazioni azzerate: prefers-reduced-motion, oppure l'utente
+                   ha cliccato/premuto un tasto durante una stampa (vedi main.js)
+
+   Senza .js il CSS non nasconde niente: la pagina resta leggibile. */
+
+/* ---------------------------------------------------------------- font --- */
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/jetbrains-mono-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/jetbrains-mono-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/jetbrains-mono-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------------------------------------- palette --- */
+
+:root {
+  --sfondo: #0c0c0c;
+  --testo: #c9c9c2;
+  --luminoso: #e9e9e2;
+  --tenue: #7d7d74;
+  --accento: #9caf88;
+  --accento-luce: #b6c5a2;
+  --filo: #262622;
+  --rilievo: #141412;
+  --misura: 46rem;
+}
+
+/* ---------------------------------------------------------------- base --- */
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scrollbar-color: #2c2c27 var(--sfondo);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background:
+    radial-gradient(130% 100% at 50% 0%, #131311 0%, var(--sfondo) 55%)
+    fixed;
+  color: var(--testo);
+  font: 400 15px/1.75 "JetBrains Mono", ui-monospace, "Cascadia Mono",
+        Menlo, Consolas, monospace;
+}
+
+::selection {
+  background: var(--accento);
+  color: var(--sfondo);
+}
+
+#terminale {
+  max-width: var(--misura);
+  margin: 0 auto;
+  padding: clamp(18px, 5vh, 56px) clamp(16px, 4vw, 32px) 0;
+}
+
+.fuori-schermo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+a {
+  color: var(--accento);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--accento-luce);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+:is(a, button):focus-visible {
+  outline: 1px solid var(--accento);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--sfondo); }
+::-webkit-scrollbar-thumb {
+  background: #2c2c27;
+  border: 2px solid var(--sfondo);
+  border-radius: 5px;
+}
+
+.avviso-noscript {
+  color: var(--luminoso);
+  border: 1px solid var(--filo);
+  padding: 0.8rem 1rem;
+}
+
+/* ------------------------------------------------------- prompt e righe --- */
+
+.prompt b {
+  color: var(--accento);
+  font-weight: 500;
+}
+.prompt .perc { color: var(--tenue); }
+
+.riga-comando {
+  margin: 0;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.riga-comando::-webkit-scrollbar { display: none; }
+
+.comando {
+  color: var(--luminoso);
+  font-weight: 500;
+}
+
+/* Il comando si scrive da solo: larghezza che cresce a scatti di un
+   carattere. Funziona perché il font è monospace e l'unità ch è larga
+   esattamente un carattere. */
+html.js .comando {
+  display: inline-block;
+  max-width: 0;
+  overflow: hidden;
+  white-space: pre;
+  vertical-align: bottom;
+}
+html.js .visto > .riga-comando .comando {
+  animation: scrivi var(--t-cmd, 450ms) steps(var(--n, 12), end) forwards;
+}
+@keyframes scrivi {
+  to { max-width: calc(var(--n, 12) * 1ch + 4px); }
+}
+
+/* Le righe di output compaiono in sequenza, dopo il comando. */
+html.js .visto > .righe > * {
+  animation: riga 220ms ease-out both;
+  animation-delay: calc(var(--t-cmd, 450ms) + var(--i, 0) * 45ms);
+}
+@keyframes riga {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Blocchi non ancora stampati: invisibili solo se JS è attivo. */
+html.js .blocco:not(.visto) { opacity: 0; }
+
+/* Salto delle animazioni: reduced-motion o richiesta dell'utente. Durata e
+   ritardo nulli mandano ogni animazione direttamente allo stato finale. */
+html.istantaneo .blocco:not(.visto) { opacity: 1; }
+html.istantaneo * {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0s !important;
+}
+
+/* Cursore a blocco in fondo alla pagina. */
+.cursore {
+  display: inline-block;
+  width: 0.62em;
+  height: 1.15em;
+  margin-left: 0.5ch;
+  background: var(--accento);
+  vertical-align: text-bottom;
+  animation: lampeggio 1.15s steps(1) infinite;
+}
+@keyframes lampeggio { 50% { opacity: 0; } }
+
+/* ------------------------------------------------------------- blocchi --- */
+
+.blocco { margin-bottom: 1.2rem; }
+
+.blocco > .riga-comando {
+  margin: 3.2rem 0 0.7rem;
+}
+
+#boot { margin-top: 0.4rem; }
+#boot .righe > * { margin: 0 0 0.25rem; }
+#boot .versione { color: var(--luminoso); }
+
+.righe p { margin: 0 0 0.35rem; }
+
+/* ------------------------------------------------------- elenchi voci --- */
+
+.elenco {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.riga-voce {
+  display: flex;
+  align-items: baseline;
+  gap: 2ch;
+  padding: 0.18rem 0;
+}
+
+/* Il nome è un link o un bottone vestito da link. */
+.nome {
+  color: var(--luminoso);
+  font: inherit;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  transition: color 120ms ease;
+}
+.nome:hover {
+  color: var(--accento-luce);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.nome .slash { color: var(--tenue); }
+button.nome[aria-expanded="true"] { color: var(--accento); }
+
+.nota { color: var(--tenue); }
+
+/* Scheda del progetto, si apre sotto la riga al clic. */
+.scheda {
+  margin: 0.7rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1.1rem;
+  border-left: 2px solid var(--filo);
+  background: linear-gradient(90deg, var(--rilievo), transparent 55%);
+}
+.scheda[hidden] { display: none; }
+
+.scheda > .riga-comando { margin: 0 0 0.7rem; }
+
+.campi {
+  display: grid;
+  grid-template-columns: 8ch 1fr;
+  gap: 0.15rem 1.5ch;
+  margin: 0 0 0.9rem;
+}
+.campi dt { color: var(--tenue); }
+.campi dd { margin: 0; color: var(--luminoso); }
+
+.descrizione {
+  max-width: 62ch;
+  margin: 0 0 1rem;
+}
+
+.azioni {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 2ch;
+  margin: 0;
+}
+.azioni .parentesi { color: var(--tenue); }
+.azioni a { font-weight: 500; }
+
+/* ----------------------------------------------------------- contatti --- */
+
+.contatto {
+  display: grid;
+  grid-template-columns: 11ch 1fr;
+  gap: 1ch;
+}
+.contatto .etichetta {
+  color: var(--tenue);
+  text-transform: lowercase;
+}
+.contatto a { overflow-wrap: anywhere; }
+
+/* --------------------------------------------------------------- fine --- */
+
+#fine {
+  margin-top: 4.5rem;
+  padding-bottom: max(4rem, 22vh);
+}
+#fine .riga-comando { margin: 0 0 1.4rem; }
+.nota-fine {
+  color: var(--tenue);
+  font-size: 0.85rem;
+}
+.nota-fine a { color: var(--testo); }
+.nota-fine a:hover { color: var(--accento-luce); }
+
+/* -------------------------------------------------------- schermi stretti */
+
+@media (max-width: 560px) {
+  body { font-size: 14px; }
+  .riga-voce {
+    flex-wrap: wrap;
+    gap: 0 2ch;
+  }
+  .nota { font-size: 0.92em; }
+  .campi { grid-template-columns: 7ch 1fr; }
+  .contatto { grid-template-columns: 10ch 1fr; }
+}
+
+/* ------------------------------------------------------------ meno moto --- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    transition-duration: 0s !important;
+  }
+  html.js .blocco:not(.visto) { opacity: 1; }
+}

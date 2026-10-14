@@ -1,0 +1,230 @@
+/* Stile delle pagine di lettura delle analisi: stesso tema scuro del sito,
+   ma impaginato per testi lunghi. Il corpo resta in serif per leggere
+   comodo; il monospace del terminale compare in testata, titoli e metadati.
+   Lo caricano tutte le pagine sotto /analisi/ (vedi genera_analisi.py). */
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/jetbrains-mono-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/jetbrains-mono-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --sfondo: #0c0c0c;
+  --testo: #c5c5be;
+  --luminoso: #e9e9e2;
+  --tenue: #85857c;
+  --accento: #9caf88;
+  --filo: #262622;
+  --carta-figure: #f2f1ea;
+  --misura: 40rem;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--sfondo);
+  color: var(--testo);
+  font: 400 19px/1.68 Georgia, "Iowan Old Style", "Times New Roman", Times, serif;
+}
+
+::selection {
+  background: var(--accento);
+  color: var(--sfondo);
+}
+
+header, main, footer {
+  max-width: var(--misura);
+  margin-inline: auto;
+  padding-inline: 22px;
+}
+
+/* Testata, in chiave terminale */
+
+.barra {
+  padding-top: 26px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+
+.barra a { color: var(--accento); text-decoration: none; }
+.barra a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+h1 {
+  margin: 1.6rem 0 0.4rem;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 1.8rem;
+  line-height: 1.2;
+  color: var(--luminoso);
+}
+
+.autore {
+  margin: 0 0 2.4rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--filo);
+  color: var(--tenue);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+/* Testo */
+
+main h2 {
+  margin: 2.6em 0 0.6em;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 1.22rem;
+  line-height: 1.35;
+  color: var(--luminoso);
+}
+
+/* I titoli di sezione restano nel tema: prefisso ## come in Markdown. */
+main h2::before {
+  content: "## ";
+  color: var(--accento);
+  opacity: 0.55;
+}
+
+main h3 {
+  margin: 2em 0 0.45em;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 1.02rem;
+  line-height: 1.4;
+  color: var(--luminoso);
+}
+
+main p { margin: 0 0 1.05em; }
+
+main strong { color: var(--luminoso); font-weight: 600; }
+
+main a {
+  color: var(--accento);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  overflow-wrap: anywhere;
+}
+main a:hover { color: #b6c5a2; }
+
+main ul, main ol { margin: 0 0 1.05em; padding-left: 1.3em; }
+main li { margin: 0.35em 0; }
+
+/* Figure: i PNG nascono su fondo bianco (vengono dai documenti originali),
+   quindi stanno in un cartiglio chiaro, un foglio appoggiato sul terminale.
+   Restano leggibili senza ritoccarle e staccano nettamente dal fondo scuro.
+   Pandoc avvolge le immagini sole in un <figure> e mette l'alt in una
+   didascalia: la didascalia resta, piccola e attenuata, sotto il cartiglio. */
+main figure { margin: 2rem 0; }
+
+main img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 14px;
+  background: var(--carta-figure);
+  border: 1px solid #33332e;
+  border-radius: 3px;
+}
+
+main figcaption {
+  margin-top: 0.7rem;
+  color: var(--tenue);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+/* Le figure escono dalla colonna di lettura: i PNG nascono larghi 1000-1900
+   pixel e dentro 40rem si leggono a metà della loro risoluzione, con il
+   testo dei grafici minuscolo. Sugli schermi larghi ogni figura ha una banda
+   sua, più larga di 6rem per lato, che resta dentro la finestra (a 820px di
+   viewport i margini negativi sono ancora contenuti). */
+@media (min-width: 820px) {
+  main img {
+    max-width: calc(100% + 12rem);
+    margin-inline: -6rem;
+  }
+}
+
+/* Tabelle: sugli schermi stretti scorrono da sole invece di sforare */
+
+.tabella { margin: 1.6rem 0; overflow-x: auto; }
+
+.tabella table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: var(--mono);
+  font-size: 0.72em;
+}
+
+.tabella th, .tabella td {
+  padding: 0.5em 0.65em;
+  border-bottom: 1px solid var(--filo);
+  vertical-align: top;
+  text-align: left;
+}
+
+.tabella thead th {
+  border-bottom: 1px solid var(--accento);
+  color: var(--luminoso);
+  font-weight: 500;
+}
+
+/* Piede */
+
+footer {
+  margin-top: 3.5rem;
+  padding-top: 1.1rem;
+  padding-bottom: 2.4rem;
+  border-top: 1px solid var(--filo);
+  color: var(--tenue);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+footer a { color: var(--accento); text-decoration: none; }
+footer a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Schermi stretti */
+
+@media (max-width: 540px) {
+  body { font-size: 17.5px; }
+  h1 { font-size: 1.45rem; }
+  main h2 { font-size: 1.1rem; }
+}
+
+/* Stampa: su carta si torna al chiaro */
+
+@media print {
+  :root {
+    --sfondo: #fff;
+    --testo: #111;
+    --luminoso: #000;
+    --tenue: #5f5f5f;
+    --accento: #3d5a2b;
+    --filo: #d8d8d8;
+  }
+  .barra, footer { display: none; }
+  body { font-size: 11pt; }
+  main img {
+    break-inside: avoid;
+    max-width: 100%;
+    margin-inline: auto;
+    border: 1px solid #bbb;
+  }
+}
