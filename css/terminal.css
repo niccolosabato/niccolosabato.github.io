@@ -201,14 +201,17 @@ html.istantaneo * {
   transition-duration: 0s !important;
 }
 
-/* Cursore a blocco in fondo alla pagina. */
+/* Cursore a blocco in fondo alla pagina. È un inline-block vuoto, quindi
+   il suo baseline è il bordo inferiore: vertical-align negativo lo fa
+   scendere di un pelo sotto il rigo del testo, come un cursore vero,
+   invece di appoggiarlo alla linea dei discendenti (text-bottom), che lo
+   faceva sembrare seduto più in basso del prompt. */
 .cursore {
   display: inline-block;
   width: 0.62em;
   height: 1.15em;
-  margin-left: 0.5ch;
   background: var(--accento);
-  vertical-align: text-bottom;
+  vertical-align: -0.15em;
   animation: lampeggio 1.15s steps(1) infinite;
 }
 @keyframes lampeggio { 50% { opacity: 0; } }

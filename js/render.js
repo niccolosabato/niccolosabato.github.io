@@ -86,7 +86,7 @@ function sezioneCv() {
     <div class="righe">
       <p class="riga-voce">
         <a class="nome" href="cv.pdf" target="_blank" rel="noopener">cv.pdf</a>
-        <span class="nota">curriculum vitae, si apre in una nuova scheda</span>
+        <span class="nota">curriculum vitae</span>
       </p>
     </div>
   </section>`;
