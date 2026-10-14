@@ -43,7 +43,7 @@ function sezioneWhoami() {
   const righe = [
     `<p class="versione">${t(PROFILO.utente)}</p>`,
     ...PROFILO.righe.map((r) => `<p>${t(r)}</p>`),
-    `<p class="commento"># clicca su una voce verde per aprirla</p>`,
+    `<p class="commento"># clicca su una voce per aprirla</p>`,
   ].join("");
   return `<section class="blocco" id="whoami">
     ${rigaComando("whoami")}

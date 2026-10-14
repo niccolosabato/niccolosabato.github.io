@@ -198,7 +198,11 @@ html.js .blocco:not(.visto) { opacity: 0; }
 /* Salto delle animazioni: reduced-motion o richiesta dell'utente. Durata e
    ritardo nulli mandano ogni animazione direttamente allo stato finale. */
 html.istantaneo .blocco:not(.visto) { opacity: 1; }
-html.istantaneo * {
+/* Il cursore finale continua a lampeggiare anche a animazioni saltate: è
+   l'unico moto continuo della pagina, e fermarlo lo fa sembrare morto.
+   Chi ha prefers-reduced-motion lo ferma comunque, con la media query in
+   fondo al file, che vince su tutto. */
+html.istantaneo *:not(.cursore) {
   animation-duration: 0s !important;
   animation-delay: 0s !important;
   transition-duration: 0s !important;
