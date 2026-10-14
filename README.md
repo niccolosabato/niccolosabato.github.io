@@ -64,6 +64,12 @@ tornare all'elenco. Il cambio vista passa dall'hash, quindi il tasto
 indietro del browser funziona e `/#openfit` è un link profondo
 condivisibile. Le analisi sono link diretti alle pagine sotto `analisi/`.
 
+La grammatica dei colori dichiara cosa si clicca: il salvia è di tutto ciò
+che è cliccabile (nomi in elenco, cv, contatti, azioni, `cd ..`), il grigio
+chiaro è testo e quello attenuato sono note e commenti shell. Sotto
+`ls progetti/` un commento, `# clicca su una voce per entrarci`, spiega che
+lì il clic fa entrare nella voce invece di aprire una pagina.
+
 ## Sviluppo
 
 ```bash

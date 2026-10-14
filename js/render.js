@@ -71,10 +71,13 @@ function voceAnalisi(p) {
   </li>`;
 }
 
-function sezioneElenco(id, comando, voci) {
+function sezioneElenco(id, comando, voci, commento) {
+  const rigaCommento = commento
+    ? `<li class="commento">${t(commento)}</li>`
+    : "";
   return `<section class="blocco" id="${t(id)}">
     ${rigaComando(comando)}
-    <ul class="righe elenco">${voci.join("")}</ul>
+    <ul class="righe elenco">${voci.join("")}${rigaCommento}</ul>
   </section>`;
 }
 
@@ -114,7 +117,14 @@ export function vistaHome() {
 
   const sezioni = [sezioneWhoami()];
   if (progetti.length) {
-    sezioni.push(sezioneElenco("progetti", "ls progetti/", progetti.map(voceProgetto)));
+    sezioni.push(
+      sezioneElenco(
+        "progetti",
+        "ls progetti/",
+        progetti.map(voceProgetto),
+        "# clicca su una voce per entrarci",
+      ),
+    );
   }
   if (analisi.length) {
     sezioni.push(sezioneElenco("analisi", "ls analisi/", analisi.map(voceAnalisi)));

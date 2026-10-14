@@ -251,9 +251,11 @@ html.istantaneo * {
   padding: 0.18rem 0;
 }
 
-/* Il nome è un link o un bottone vestito da link. */
+/* Il nome è un link o un bottone vestito da link. Il salvia è il colore di
+   tutto ciò che è cliccabile su questo sito: nomi in elenco, contatti,
+   azioni, cd .. Il grigio chiaro è testo, quello attenuato note e commenti. */
 .nome {
-  color: var(--luminoso);
+  color: var(--accento);
   font: inherit;
   background: none;
   border: 0;
@@ -271,6 +273,10 @@ html.istantaneo * {
 .nome .slash { color: var(--tenue); }
 
 .nota { color: var(--tenue); }
+
+/* I commenti shell sotto gli elenchi: grigi come ogni commento, nessuno li
+   scambia per output. */
+.commento { color: var(--tenue); }
 
 .indietro { margin-top: 1.4em; }
 
