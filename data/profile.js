@@ -9,7 +9,6 @@ export const PROFILO = {
   utente: "niccolo-sabato",
   righe: [
     "IT generalist e junior data scientist, di base a Lecce.",
-    "Assistenza tecnica di giorno, dati e codice nel resto del tempo.",
     "Master in Data Science, Analytics & AI Agents a Start2Impact.",
   ],
 };

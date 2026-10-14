@@ -1,16 +1,16 @@
-// Avvio della sessione. Le righe di boot si stampano per prime; quando hanno
-// finito, un IntersectionObserver stampa ogni blocco la prima volta che entra
-// in vista. Un clic, un tasto o una rotellina durante la stampa saltano tutto:
-// le animazioni si azzerano e ogni blocco diventa visibile subito.
+// Avvio della sessione. Ogni blocco si stampa la prima volta che entra in
+// vista, con un IntersectionObserver. Un clic, un tasto o una rotellina nei
+// primi istanti (finché si stampa la prima sezione) saltano le animazioni:
+// dopo quella finestra ogni sezione continua a stamparsi al suo ingresso,
+// che è l'effetto voluto scorrendo.
 
 import { costruisci, apriProgetto } from "./render.js";
 import { prepara, durataStampa, salta } from "./print.js";
 
 const radice = document.documentElement;
-const boot = document.getElementById("boot");
 const contenuto = document.getElementById("contenuto");
 
-costruisci(boot, contenuto);
+costruisci(contenuto);
 
 const blocchi = [...document.querySelectorAll(".blocco")];
 blocchi.forEach(prepara);
@@ -18,26 +18,6 @@ blocchi.forEach(prepara);
 /** Stampa un blocco: gli mette .visto, e le animazioni CSS fanno il resto. */
 function stampa(blocco) {
   blocco.classList.add("visto");
-}
-
-/** Link profondo: /#openfit apre la scheda del progetto, /#contatti porta
- *  alla sezione. Il blocco interessato si stampa subito, senza aspettare
- *  l'observer, e ci si scorre fino. */
-function seguiHash() {
-  const id = decodeURIComponent(location.hash.replace(/^#/, ""));
-  if (!id) return;
-  const bottone = apriProgetto(id);
-  if (bottone) {
-    stampa(bottone.closest(".blocco"));
-    const scheda = document.getElementById("scheda-" + id);
-    if (scheda) scheda.scrollIntoView({ block: "center" });
-    return;
-  }
-  const blocco = document.getElementById(id);
-  if (blocco && blocco.classList.contains("blocco")) {
-    stampa(blocco);
-    blocco.scrollIntoView({ block: "start" });
-  }
 }
 
 /** Tutti i blocchi visibili insieme, senza animazioni. */
@@ -65,32 +45,52 @@ function osserva() {
   daOsservare.forEach((b) => io.observe(b));
 }
 
-let bootFinito = false;
+/* La finestra di salto: finché la prima sezione si sta stampando, un gesto
+   qualunque azzera le animazioni. Poi i listener si tolgono, altrimenti il
+   primo clic della visita ucciderebbe anche le stampe successive. */
+
+const GESTI = ["pointerdown", "keydown", "wheel", "touchstart"];
+let finestraChiusa = false;
 let attesa = null;
 
-function fineBoot() {
-  if (bootFinito) return;
-  bootFinito = true;
+function chiudiFinestra() {
+  if (finestraChiusa) return;
+  finestraChiusa = true;
   clearTimeout(attesa);
   for (const evento of GESTI) {
     removeEventListener(evento, interrompi, { capture: true });
   }
-  osserva();
 }
 
 function interrompi() {
   salta();
-  fineBoot();
+  chiudiFinestra();
 }
 
-const GESTI = ["pointerdown", "keydown", "wheel", "touchstart"];
-
-stampa(boot); // le righe di avvio partono subito
+/* Link profondo: /#openfit apre la scheda del progetto, /#contatti porta
+   alla sezione. Il blocco interessato si stampa subito, senza aspettare
+   l'observer, e ci si scorre fino. */
+function seguiHash() {
+  const id = decodeURIComponent(location.hash.replace(/^#/, ""));
+  if (!id) return;
+  const bottone = apriProgetto(id);
+  if (bottone) {
+    stampa(bottone.closest(".blocco"));
+    const scheda = document.getElementById("scheda-" + id);
+    if (scheda) scheda.scrollIntoView({ block: "center" });
+    return;
+  }
+  const blocco = document.getElementById(id);
+  if (blocco && blocco.classList.contains("blocco")) {
+    stampa(blocco);
+    blocco.scrollIntoView({ block: "start" });
+  }
+}
 
 // Con ?statico nell'indirizzo tutto compare subito, senza macchina da
 // scrivere: serve a chi non vuole animazioni e agli screenshot di verifica,
 // perché Chromium headless non genera fotogrammi continui e l'observer qui
-// sotto non scatterebbe mai.
+// sopra non scatterebbe mai.
 const statico = new URLSearchParams(location.search).has("statico");
 
 if (statico || radice.classList.contains("istantaneo")) {
@@ -100,7 +100,9 @@ if (statico || radice.classList.contains("istantaneo")) {
   for (const evento of GESTI) {
     addEventListener(evento, interrompi, { capture: true, passive: true });
   }
-  attesa = setTimeout(fineBoot, durataStampa(boot) + 300);
+  const primo = blocchi.find((b) => !b.classList.contains("visto"));
+  attesa = setTimeout(chiudiFinestra, (primo ? durataStampa(primo) : 0) + 400);
+  osserva();
 }
 
 seguiHash();

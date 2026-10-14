@@ -142,25 +142,10 @@ function sezioneContatti() {
   </section>`;
 }
 
-/* ------------------------------------------------------------------ boot --- */
-
-export function righeBoot() {
-  const progetti = PROGETTI.filter((p) => (p.sezione || "PROGETTI") !== "ANALISI");
-  const analisi = PROGETTI.filter((p) => p.sezione === "ANALISI");
-  return [
-    `<p class="versione">sabato portfolio cli · v1.0</p>`,
-    `<p>${progetti.length} progetti, ${analisi.length} analisi, 1 curriculum</p>`,
-    `<p class="nota">si naviga col mouse o con Tab: ogni voce è un link</p>`,
-  ];
-}
-
 /* ------------------------------------------------------------- costruzione */
 
-/** Riempie #boot e #contenuto e collega l'apertura delle schede progetto. */
-export function costruisci(boot, contenuto) {
-  boot.innerHTML = `<div class="righe">${righeBoot().join("")}</div>`;
-  boot.style.setProperty("--t-cmd", "0s");
-
+/** Riempie #contenuto e collega l'apertura delle schede progetto. */
+export function costruisci(contenuto) {
   const progetti = PROGETTI.filter((p) => (p.sezione || "PROGETTI") === "PROGETTI");
   const analisi = PROGETTI.filter((p) => p.sezione === "ANALISI");
 

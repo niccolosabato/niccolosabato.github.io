@@ -9,8 +9,8 @@ Live: da pubblicare (previsto come project page,
 `niccolosabato.github.io/sabatoPortfolio-cli/`).
 
 L'altra versione, in stile Game Boy, vive su
-<https://niccolosabato.github.io> e da qui si raggiunge col link in fondo
-alla pagina.
+<https://niccolosabato.github.io> e da qui si raggiunge aprendo la scheda
+della voce `portfolio` nell'elenco progetti.
 
 ## Com'è fatto
 
@@ -49,8 +49,9 @@ classi e le variabili, non disegna niente.
 I blocchi si stampano la prima volta che entrano in vista, con un
 IntersectionObserver. Tre modi per saltare le animazioni: il parametro
 `?statico` nell'indirizzo, `prefers-reduced-motion`, oppure un clic o un
-tasto qualunque durante una stampa. Senza JavaScript la pagina resta nuda ma
-leggibile: le animazioni sono agganciate a una classe che mette lo script.
+tasto nei primi istanti, mentre si stampa la prima sezione. Senza JavaScript
+la pagina resta nuda ma leggibile: le animazioni sono agganciate a una
+classe che mette lo script.
 
 I progetti si aprono sul posto: il nome è un bottone che stampa la scheda
 sotto la riga, come un `cat`. Un link profondo `/#openfit` arriva sul sito

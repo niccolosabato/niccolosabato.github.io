@@ -56,14 +56,16 @@
 html {
   -webkit-text-size-adjust: 100%;
   scrollbar-color: #2c2c27 var(--sfondo);
+  /* Su Chrome mobile un gradiente con attachment fixed ritarda il repaint
+     durante lo scroll e lascia una banda chiara in fondo alla finestra:
+     il fondo scuro sta qui, sul documento, e il gradiente scorre col testo. */
+  background: var(--sfondo);
 }
 
 body {
   margin: 0;
   min-height: 100dvh;
-  background:
-    radial-gradient(130% 100% at 50% 0%, #131311 0%, var(--sfondo) 55%)
-    fixed;
+  background: radial-gradient(130% 100% at 50% 0%, #131311 0%, var(--sfondo) 55%);
   color: var(--testo);
   font: 400 15px/1.75 "JetBrains Mono", ui-monospace, "Cascadia Mono",
         Menlo, Consolas, monospace;
@@ -205,9 +207,15 @@ html.istantaneo * {
   margin: 3.2rem 0 0.7rem;
 }
 
-#boot { margin-top: 0.4rem; }
-#boot .righe > * { margin: 0 0 0.25rem; }
-#boot .versione { color: var(--luminoso); }
+/* La prima sezione apre la pagina: niente margine alto da scrollback. */
+#contenuto > .blocco:first-child > .riga-comando {
+  margin-top: 0.4rem;
+}
+
+.versione {
+  color: var(--luminoso);
+  font-weight: 500;
+}
 
 .righe p { margin: 0 0 0.35rem; }
 
@@ -301,13 +309,7 @@ button.nome[aria-expanded="true"] { color: var(--accento); }
   margin-top: 4.5rem;
   padding-bottom: max(4rem, 22vh);
 }
-#fine .riga-comando { margin: 0 0 1.4rem; }
-.nota-fine {
-  color: var(--tenue);
-  font-size: 0.85rem;
-}
-.nota-fine a { color: var(--testo); }
-.nota-fine a:hover { color: var(--accento-luce); }
+#fine .riga-comando { margin: 0; }
 
 /* -------------------------------------------------------- schermi stretti */
 
