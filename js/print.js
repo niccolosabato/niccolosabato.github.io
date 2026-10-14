@@ -10,7 +10,7 @@ function durataComando(cmd) {
   return Math.min(650, 120 + cmd.textContent.length * 24);
 }
 
-/** Imposta su un blocco (o una scheda) le variabili CSS delle animazioni:
+/** Imposta su un blocco (o una vista) le variabili CSS delle animazioni:
  *  --n e --t-cmd sul blocco, --i su ogni riga di output. */
 export function prepara(blocco) {
   const cmd = blocco.querySelector(":scope > .riga-comando .comando");

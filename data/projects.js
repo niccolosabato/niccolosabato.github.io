@@ -13,10 +13,6 @@
 // `sezione` decide in quale elenco finisce la voce: "PROGETTI" (predefinito)
 // oppure "ANALISI". Le sezioni vuote non compaiono.
 //
-// Un link con `qui: true` puntava al sito Game Boy quando questo sito non
-// esisteva ancora; qui viene aperto come https://niccolosabato.github.io/
-// (vedi js/render.js), cioè la versione Game Boy dello stesso portfolio.
-//
 // Per le voci di sezione "ANALISI" l'url del link inizia con "/analisi/":
 // render.js lo rende relativo, così il sito funziona anche sotto un
 // sottopercorso (project page GitHub).
@@ -62,25 +58,11 @@ export const PROGETTI = [
     ],
   },
   {
-    id: "portfolio",
-    nome: "Sabato Portfolio",
-    tipo: "SITO PERSONALE",
-    riga: "Il sito attualmente aperto",
-    descrizione:
-      "Sito in stile GameBoy, si naviga con i pulsanti della console e si esplorano i miei progetti e le mie analisi. Nessuna libreria, nessun passo di compilazione, nessuna chiamata di rete.",
-    stack: ["JS", "HTML", "CSS"],
-    link: [
-      { label: "APRI", qui: true },
-      { label: "CODICE", url: "https://github.com/niccolosabato/niccolosabato.github.io" },
-    ],
-  },
-
-  {
     id: "violenza-sessuale",
     sezione: "ANALISI",
     nome: "Violenza in Italia",
     tipo: "ANALISI STATISTICA",
-    riga: "Violenza sessuale",
+    riga: "Violenza in Italia",
     descrizione:
       "Rapporto sullo scarto fra la violenza che le donne dichiarano all'ISTAT e quella che arriva a denuncia, più l'andamento di condanne e detenuti e la parte sulle vittime minorenni.",
     stack: ["ISTAT", "dati ministeriali"],

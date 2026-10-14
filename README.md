@@ -1,16 +1,16 @@
 # Sabato Portfolio CLI
 
-La versione terminale del portfolio: una sola pagina che si legge come lo
-scrollback di una sessione, tema scuro e un solo accento verde salvia. Si
-naviga a clic come qualunque sito: ogni voce è un link, i progetti si aprono
-sul posto con la loro scheda, le analisi portano alle pagine di lettura.
+La versione terminale del portfolio: una sola pagina, una sola schermata,
+senza scorrimento. Tema scuro e un solo accento verde salvia. Si naviga a
+clic come qualunque sito: ogni voce è un link, e cliccare un progetto cambia
+vista come un `cd` in un terminale vero.
 
 Live: da pubblicare (previsto come project page,
 `niccolosabato.github.io/sabatoPortfolio-cli/`).
 
 L'altra versione, in stile Game Boy, vive su
-<https://niccolosabato.github.io> e da qui si raggiunge aprendo la scheda
-della voce `portfolio` nell'elenco progetti.
+<https://niccolosabato.github.io>. Da qui non punta più niente verso di
+lei: la home elenca solo i progetti attivi e le analisi.
 
 ## Com'è fatto
 
@@ -23,9 +23,9 @@ tolgono quei due `<script>` e il sito resta completamente locale.
 index.html          la pagina, con lo script inline che prepara gli stati
 css/terminal.css    palette, layout, animazioni di stampa
 fonts/              JetBrains Mono 400, 500, 700, servito in locale (OFL)
-js/main.js          avvio, observer sulle sezioni, link profondi
+js/main.js          avvio, cambio vista sull'hash, stampa in sequenza
 js/print.js         le variabili CSS della macchina da scrivere, il salto
-js/render.js        costruisce le sezioni a partire dai file in data/
+js/render.js        costruisce le viste (home e progetto) dai file in data/
 data/projects.js    i progetti, unica fonte di verità (testi di Niccolò)
 data/contacts.js    i contatti (testi di Niccolò)
 data/profile.js     le righe di whoami (testi di Niccolò)
@@ -46,17 +46,23 @@ possibile perché il font è monospace e l'unità `ch` è larga un carattere) e
 le righe di output compaiono in sequenza. Tutto in CSS: JavaScript mette le
 classi e le variabili, non disegna niente.
 
-I blocchi si stampano la prima volta che entrano in vista, con un
-IntersectionObserver. Tre modi per saltare le animazioni: il parametro
-`?statico` nell'indirizzo, `prefers-reduced-motion`, oppure un clic o un
-tasto nei primi istanti, mentre si stampa la prima sezione. Senza JavaScript
-la pagina resta nuda ma leggibile: le animazioni sono agganciate a una
-classe che mette lo script.
+Il sito sta in una schermata sola: niente scorrimento, il carattere si scala
+sulla finestra (altezza e larghezza) perché tutto il contenuto resti dentro.
+Sotto i 600px di altezza, telefono ruotato, lo scorrimento torna: tagliare
+il contenuto sarebbe peggio.
 
-I progetti si aprono sul posto: il nome è un bottone che stampa la scheda
-sotto la riga, come un `cat`. Un link profondo `/#openfit` arriva sul sito
-con quella scheda già aperta. Le analisi sono link diretti alle pagine sotto
-`analisi/`.
+Al caricamento e a ogni cambio vista i blocchi si stampano in sequenza, uno
+dopo l'altro, con un offset cumulativo che le animazioni CSS leggono da
+`--t0`. Tre modi per saltarle: il parametro `?statico` nell'indirizzo,
+`prefers-reduced-motion`, oppure un clic o un tasto mentre la vista si sta
+stampando. Senza JavaScript la pagina resta nuda ma leggibile: le animazioni
+sono agganciate a una classe che mette lo script.
+
+Cliccare un progetto cambia vista, come un `cd`: la schermata diventa il
+`cat progetti/<id>` con campi, descrizione e link, e una riga `cd ..` per
+tornare all'elenco. Il cambio vista passa dall'hash, quindi il tasto
+indietro del browser funziona e `/#openfit` è un link profondo
+condivisibile. Le analisi sono link diretti alle pagine sotto `analisi/`.
 
 ## Sviluppo
 
@@ -70,8 +76,8 @@ da `file://`.
 
 Per gli screenshot in headless Chromium serve la combinazione
 `--run-all-compositor-stages-before-draw --virtual-time-budget=...`: senza,
-il browser headless non genera fotogrammi continui e l'observer non scatta
-mai (vedi AGENTS.md).
+il browser headless non genera fotogrammi continui e le animazioni restano
+al primo stato (vedi AGENTS.md).
 
 ## Aggiungere o modificare i contenuti
 

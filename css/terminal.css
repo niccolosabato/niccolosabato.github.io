@@ -54,6 +54,7 @@
 * { box-sizing: border-box; }
 
 html {
+  height: 100%;
   -webkit-text-size-adjust: 100%;
   scrollbar-color: #2c2c27 var(--sfondo);
   /* Su Chrome mobile un gradiente con attachment fixed ritarda il repaint
@@ -64,11 +65,19 @@ html {
 
 body {
   margin: 0;
-  min-height: 100dvh;
+  height: 100%;
+  overflow: hidden;
   background: radial-gradient(130% 100% at 50% 0%, #131311 0%, var(--sfondo) 55%);
   color: var(--testo);
-  font: 400 15px/1.75 "JetBrains Mono", ui-monospace, "Cascadia Mono",
+  /* Il sito sta in una schermata sola: il carattere si scala sulla finestra
+     perché tutto il contenuto resti dentro. Il minimo fra i due clamp tiene
+     conto dell'altezza (le righe) e della larghezza (le righe che andrebbero
+     a capo). */
+  font-family: "JetBrains Mono", ui-monospace, "Cascadia Mono",
         Menlo, Consolas, monospace;
+  font-weight: 400;
+  font-size: min(clamp(11px, 1.9dvh, 15px), clamp(11px, 3.4vw, 15px));
+  line-height: 1.7;
 }
 
 ::selection {
@@ -78,8 +87,12 @@ body {
 
 #terminale {
   max-width: var(--misura);
+  min-height: 100dvh;
   margin: 0 auto;
-  padding: clamp(18px, 5vh, 56px) clamp(16px, 4vw, 32px) 0;
+  padding: 3dvh clamp(16px, 4vw, 32px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .fuori-schermo {
@@ -154,6 +167,7 @@ html.js .comando {
 }
 html.js .visto > .riga-comando .comando {
   animation: scrivi var(--t-cmd, 450ms) steps(var(--n, 12), end) forwards;
+  animation-delay: var(--t0, 0ms);
 }
 @keyframes scrivi {
   to { max-width: calc(var(--n, 12) * 1ch + 4px); }
@@ -162,7 +176,7 @@ html.js .visto > .riga-comando .comando {
 /* Le righe di output compaiono in sequenza, dopo il comando. */
 html.js .visto > .righe > * {
   animation: riga 220ms ease-out both;
-  animation-delay: calc(var(--t-cmd, 450ms) + var(--i, 0) * 45ms);
+  animation-delay: calc(var(--t0, 0ms) + var(--t-cmd, 450ms) + var(--i, 0) * 45ms);
 }
 @keyframes riga {
   from {
@@ -201,15 +215,15 @@ html.istantaneo * {
 
 /* ------------------------------------------------------------- blocchi --- */
 
-.blocco { margin-bottom: 1.2rem; }
+.blocco { margin-bottom: 0; }
 
 .blocco > .riga-comando {
-  margin: 3.2rem 0 0.7rem;
+  margin: 2em 0 0.5em;
 }
 
 /* La prima sezione apre la pagina: niente margine alto da scrollback. */
 #contenuto > .blocco:first-child > .riga-comando {
-  margin-top: 0.4rem;
+  margin-top: 0;
 }
 
 .versione {
@@ -252,20 +266,10 @@ html.istantaneo * {
   text-underline-offset: 3px;
 }
 .nome .slash { color: var(--tenue); }
-button.nome[aria-expanded="true"] { color: var(--accento); }
 
 .nota { color: var(--tenue); }
 
-/* Scheda del progetto, si apre sotto la riga al clic. */
-.scheda {
-  margin: 0.7rem 0 1.1rem;
-  padding: 0.55rem 0 0.55rem 1.1rem;
-  border-left: 2px solid var(--filo);
-  background: linear-gradient(90deg, var(--rilievo), transparent 55%);
-}
-.scheda[hidden] { display: none; }
-
-.scheda > .riga-comando { margin: 0 0 0.7rem; }
+.indietro { margin-top: 1.4em; }
 
 .campi {
   display: grid;
@@ -306,22 +310,34 @@ button.nome[aria-expanded="true"] { color: var(--accento); }
 /* --------------------------------------------------------------- fine --- */
 
 #fine {
-  margin-top: 4.5rem;
-  padding-bottom: max(4rem, 22vh);
+  margin-top: 2.2em;
 }
 #fine .riga-comando { margin: 0; }
 
 /* -------------------------------------------------------- schermi stretti */
 
 @media (max-width: 560px) {
-  body { font-size: 14px; }
   .riga-voce {
     flex-wrap: wrap;
     gap: 0 2ch;
   }
-  .nota { font-size: 0.92em; }
+  .nota { font-size: 0.9em; }
   .campi { grid-template-columns: 7ch 1fr; }
   .contatto { grid-template-columns: 10ch 1fr; }
+}
+
+/* --------------------------------------------------------- schermi bassi */
+
+/* Sotto i 600px di altezza (telefono ruotato, finestre minime) una
+   schermata sola non basta più: il carattere è già al minimo e tagliare il
+   contenuto sarebbe peggio di farlo scorrere. */
+@media (max-height: 600px) {
+  body { overflow: auto; }
+  #terminale {
+    min-height: 100dvh;
+    justify-content: flex-start;
+    padding-block: 4dvh;
+  }
 }
 
 /* ------------------------------------------------------------ meno moto --- */

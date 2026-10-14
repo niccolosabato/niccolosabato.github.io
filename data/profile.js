@@ -8,7 +8,7 @@ export const PROFILO = {
   // Compare come prima riga dell'output di whoami, in stile handle unix.
   utente: "niccolo-sabato",
   righe: [
-    "IT generalist e junior data scientist, di base a Lecce.",
-    "Master in Data Science, Analytics & AI Agents a Start2Impact.",
+    "IT generalist e junior data scientist.",
+    "Master in Data Science, Analytics & AI Agents.",
   ],
 };

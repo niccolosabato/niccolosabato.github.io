@@ -6,15 +6,10 @@ const EMAIL = ["ncsabato", "gmail.com"];
 
 export const CONTATTI = [
   {
-    label: "GITHUB",
-    valore: "niccolosabato",
-    url: "https://github.com/niccolosabato",
-  },
-  {
     label: "EMAIL",
     valore: EMAIL.join("@"),
     url: "mailto:" + EMAIL.join("@"),
-  },
+  },  
   {
     label: "TELEGRAM",
     valore: "@sabatoniccolo",

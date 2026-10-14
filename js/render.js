@@ -1,16 +1,13 @@
-// Costruisce le sezioni della pagina a partire dai dati. Ogni sezione è un
-// blocco: una riga di comando finta (il prompt che l'ha "eseguita") e sotto le
-// righe di output. I progetti si aprono sul posto, come un `cat` che ne
-// stampa la scheda; le analisi sono link diretti alle loro pagine.
+// Costruisce le viste della pagina a partire dai dati. Il sito sta in una
+// schermata sola, senza scorrimento: la home è l'elenco dei contenuti, e
+// cliccare un progetto cambia vista, come un `cd` in un terminale. La vista
+// del progetto è il suo `cat`, con in fondo una riga `cd ..` per tornare.
+// Il cambio vista passa dall'hash dell'indirizzo, quindi il tasto indietro
+// del browser funziona e /#openfit è un link profondo condivisibile.
 
 import { PROGETTI } from "../data/projects.js";
 import { CONTATTI } from "../data/contacts.js";
 import { PROFILO } from "../data/profile.js";
-import { prepara } from "./print.js";
-
-// La voce "portfolio" nei dati ha un link con `qui: true`: sul sito Game Boy
-// indicava il sito stesso, qui indica l'altra versione del portfolio.
-const URL_GAMEBOY = "https://niccolosabato.github.io/";
 
 const PROMPT =
   '<span class="prompt"><b>sabato</b>@<b>portfolio</b>:' +
@@ -29,12 +26,11 @@ function rigaComando(comando) {
 }
 
 /** Un link esterno vero: niente window.open, quindi niente blocchi di Safari. */
-function linkEsterno(url, etichetta, titolo) {
-  const attr = titolo ? ` title="${t(titolo)}"` : "";
+function linkEsterno(url, etichetta) {
   if (url.startsWith("mailto:")) {
-    return `<a href="${t(url)}"${attr}>${t(etichetta)}</a>`;
+    return `<a href="${t(url)}">${t(etichetta)}</a>`;
   }
-  return `<a href="${t(url)}" target="_blank" rel="noopener"${attr}>${t(etichetta)}</a>`;
+  return `<a href="${t(url)}" target="_blank" rel="noopener">${t(etichetta)}</a>`;
 }
 
 function urlRelativo(url) {
@@ -56,45 +52,12 @@ function sezioneWhoami() {
 
 /* -------------------------------------------------------- progetti/analisi -- */
 
-function schedaProgetto(p) {
-  const campi = [
-    ["nome", p.nome],
-    ["tipo", p.tipo],
-    ["stack", (p.stack || []).join(", ")],
-  ]
-    .map(([k, v]) => `<dt>${t(k)}</dt><dd>${t(v)}</dd>`)
-    .join("");
-
-  const azioni = (p.link || [])
-    .map((l) => {
-      const url = l.qui ? URL_GAMEBOY : l.url;
-      const titolo = l.qui ? "La versione Game Boy di questo sito" : "";
-      return `<span class="azione"><span class="parentesi">[</span>${linkEsterno(
-        url,
-        l.label,
-        titolo,
-      )}<span class="parentesi">]</span></span>`;
-    })
-    .join("");
-
-  return `<div class="scheda" id="scheda-${t(p.id)}" hidden>
-    ${rigaComando(`cat progetti/${p.id}`)}
-    <div class="righe">
-      <dl class="campi">${campi}</dl>
-      <p class="descrizione">${t(p.descrizione)}</p>
-      <p class="azioni">${azioni}</p>
-    </div>
-  </div>`;
-}
-
 function voceProgetto(p) {
   return `<li class="voce">
     <div class="riga-voce">
-      <button type="button" class="nome" aria-expanded="false"
-              aria-controls="scheda-${t(p.id)}">${t(p.id)}<span class="slash">/</span></button>
+      <a class="nome" href="#${t(p.id)}">${t(p.id)}<span class="slash">/</span></a>
       <span class="nota">${t(p.riga)}</span>
     </div>
-    ${schedaProgetto(p)}
   </li>`;
 }
 
@@ -108,8 +71,8 @@ function voceAnalisi(p) {
   </li>`;
 }
 
-function sezioneElenco(nomeSezione, comando, voci) {
-  return `<section class="blocco" id="${t(nomeSezione.toLowerCase())}">
+function sezioneElenco(id, comando, voci) {
+  return `<section class="blocco" id="${t(id)}">
     ${rigaComando(comando)}
     <ul class="righe elenco">${voci.join("")}</ul>
   </section>`;
@@ -142,64 +105,60 @@ function sezioneContatti() {
   </section>`;
 }
 
-/* ------------------------------------------------------------- costruzione */
+/* ------------------------------------------------------------------ viste --- */
 
-/** Riempie #contenuto e collega l'apertura delle schede progetto. */
-export function costruisci(contenuto) {
+/** La home: l'elenco dei contenuti, tutto in una schermata. */
+export function vistaHome() {
   const progetti = PROGETTI.filter((p) => (p.sezione || "PROGETTI") === "PROGETTI");
   const analisi = PROGETTI.filter((p) => p.sezione === "ANALISI");
 
   const sezioni = [sezioneWhoami()];
   if (progetti.length) {
-    sezioni.push(
-      sezioneElenco("PROGETTI", "ls progetti/", progetti.map(voceProgetto)),
-    );
+    sezioni.push(sezioneElenco("progetti", "ls progetti/", progetti.map(voceProgetto)));
   }
   if (analisi.length) {
-    sezioni.push(
-      sezioneElenco("ANALISI", "ls analisi/", analisi.map(voceAnalisi)),
-    );
+    sezioni.push(sezioneElenco("analisi", "ls analisi/", analisi.map(voceAnalisi)));
   }
   sezioni.push(sezioneCv(), sezioneContatti());
-
-  contenuto.innerHTML = sezioni.join("");
-
-  // Le schede progetto si aprono e chiudono sul posto. A ogni apertura la
-  // scheda si ristampa: l'animazione riparte togliendo e rimettendo .visto,
-  // con un reflow in mezzo (se le animazioni sono disattivate non si vede).
-  function apriScheda(bottone) {
-    const scheda = contenuto.querySelector(
-      "#" + CSS.escape(bottone.getAttribute("aria-controls")),
-    );
-    if (!scheda) return;
-    const aperto = !scheda.hidden;
-    scheda.hidden = aperto;
-    bottone.setAttribute("aria-expanded", String(!aperto));
-    if (!aperto) {
-      scheda.classList.remove("visto");
-      prepara(scheda);
-      void scheda.offsetWidth;
-      scheda.classList.add("visto");
-    }
-  }
-
-  contenuto.addEventListener("click", (e) => {
-    const bottone = e.target.closest("button.nome");
-    if (bottone) apriScheda(bottone);
-  });
-
-  return { apriScheda };
+  return sezioni.join("");
 }
 
-/** Apre la scheda del progetto con quell'id, se esiste. Serve ai link
- *  profondi: /#openfit arriva sul sito con la scheda già aperta. */
-export function apriProgetto(id) {
-  const bottone = document.querySelector(
-    `button.nome[aria-controls="scheda-${CSS.escape(id)}"]`,
+/** La vista di un progetto: il suo `cat`, con `cd ..` in fondo per tornare.
+ *  Restituisce null se l'id non è di un progetto. */
+export function vistaProgetto(id) {
+  const p = PROGETTI.find(
+    (x) => x.id === id && (x.sezione || "PROGETTI") === "PROGETTI",
   );
-  if (!bottone) return null;
-  // Il costruttore ha già messo in pagina tutto: il bottone vive in #contenuto.
-  const evt = new MouseEvent("click", { bubbles: true });
-  bottone.dispatchEvent(evt);
-  return bottone;
+  if (!p) return null;
+
+  const campi = [
+    ["nome", p.nome],
+    ["tipo", p.tipo],
+    ["stack", (p.stack || []).join(", ")],
+  ]
+    .map(([k, v]) => `<dt>${t(k)}</dt><dd>${t(v)}</dd>`)
+    .join("");
+
+  const azioni = (p.link || [])
+    .map(
+      (l) =>
+        `<span class="azione"><span class="parentesi">[</span>${linkEsterno(
+          l.url,
+          l.label,
+        )}<span class="parentesi">]</span></span>`,
+    )
+    .join("");
+
+  return `<section class="blocco" id="progetto-${t(p.id)}">
+    ${rigaComando(`cat progetti/${p.id}`)}
+    <div class="righe">
+      <dl class="campi">${campi}</dl>
+      <p class="descrizione">${t(p.descrizione)}</p>
+      <p class="azioni">${azioni}</p>
+      <p class="riga-voce indietro">
+        <a class="nome" href="#">cd ..</a>
+        <span class="nota">torna all'elenco</span>
+      </p>
+    </div>
+  </section>`;
 }
