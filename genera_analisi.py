@@ -62,7 +62,8 @@ ICONA = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "
          "font-size='11' fill='%239caf88'%3E%26gt;_%3C/text%3E%3C/svg%3E")
 
 # Lo stesso tag della home: anche le letture lunghe finiscono nelle
-# statistiche. Due script da togliere (qui e in index.html) se GA non serve.
+# statistiche. Le copie del tag da togliere, se GA non serve, sono tre:
+# index.html, 404.html e questo template (poi rigenerare le analisi).
 GA = """<!-- Google tag (gtag.js), stesso ID della home -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4P77DPPF9D"></script>
 <script>

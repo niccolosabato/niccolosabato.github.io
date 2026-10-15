@@ -14,6 +14,11 @@ const radice = document.documentElement;
 const contenuto = document.getElementById("contenuto");
 const fine = document.getElementById("fine");
 
+// Con ?statico nell'indirizzo niente macchina da scrivere: serve a chi non
+// vuole animazioni e agli screenshot di verifica; in quella modalità non
+// parte nemmeno l'evento di vista.
+const statico = new URLSearchParams(location.search).has("statico");
+
 const GESTI = ["pointerdown", "keydown", "wheel", "touchstart"];
 let timerFinestra = null;
 
@@ -60,11 +65,17 @@ function subito(blocchi) {
 }
 
 /** La vista corrente la decide l'hash: #openfit è il progetto openfit,
- *  qualunque altra cosa (o niente) è la home. */
+ *  qualunque altra cosa (o niente) è la home. Una vista progetto manda
+ *  anche l'evento `vista_progetto` a GA: passando dall'hash non sarebbe
+ *  una page_view. Col ?statico l'evento resta spento. */
 function mostra() {
   const id = decodeURIComponent(location.hash.replace(/^#/, ""));
-  const vista = (id && vistaProgetto(id)) || vistaHome();
-  contenuto.innerHTML = vista;
+  const vista = id ? vistaProgetto(id) : null;
+  contenuto.innerHTML = vista || vistaHome();
+
+  if (vista && !statico && typeof window.gtag === "function") {
+    gtag("event", "vista_progetto", { progetto: id });
+  }
 
   const blocchi = [...contenuto.querySelectorAll(".blocco"), fine];
   if (radice.classList.contains("istantaneo")) {
@@ -76,9 +87,7 @@ function mostra() {
 
 addEventListener("hashchange", mostra);
 
-// Con ?statico nell'indirizzo niente macchina da scrivere: serve a chi non
-// vuole animazioni e agli screenshot di verifica.
-if (new URLSearchParams(location.search).has("statico")) {
+if (statico) {
   salta();
 }
 

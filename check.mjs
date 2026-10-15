@@ -10,8 +10,11 @@
 //
 // Controlla anche la regola di stile comune a tutti i progetti: nei testi non
 // devono comparire trattini lunghi o medi (—, –).
+//
+// Ultimo controllo: ogni pagina (home, 404, analisi) porta il tag di Google
+// Analytics; se una copia sparisce, le statistiche perdono pezzi in silenzio.
 
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { PROGETTI } from "./data/projects.js";
 import { CONTATTI } from "./data/contacts.js";
 import { PROFILO } from "./data/profile.js";
@@ -26,6 +29,7 @@ const MAX_ETICHETTA = 12;
 const MAX_LABEL_CONTATTO = 10;
 const MAX_VALORE_CONTATTO = 34;
 const MAX_RIGA_PROFILO = 110;
+const ID_GA = "G-4P77DPPF9D";
 
 let problemi = 0;
 
@@ -87,6 +91,26 @@ verifica(PROFILO.righe.length >= 1 && PROFILO.righe.length <= 5, `le righe del p
 for (const r of PROFILO.righe) {
   verifica(r.length <= MAX_RIGA_PROFILO, `riga di ${r.length} caratteri, il massimo è ${MAX_RIGA_PROFILO}`);
   trattini(r, "profilo");
+}
+
+console.log("\nTag di Google Analytics");
+const pagine = ["index.html", "404.html"];
+const cartelleAnalisi = existsSync("analisi")
+  ? readdirSync("analisi", { withFileTypes: true })
+  : [];
+for (const voce of cartelleAnalisi) {
+  if (voce.isDirectory()) pagine.push(`analisi/${voce.name}/index.html`);
+}
+for (const pagina of pagine) {
+  console.log(`  ${pagina}`);
+  const esiste = existsSync(pagina);
+  verifica(esiste, `${pagina}: non esiste`);
+  if (esiste) {
+    verifica(
+      readFileSync(pagina, "utf8").includes(ID_GA),
+      `${pagina}: manca il tag di Google Analytics (${ID_GA})`
+    );
+  }
 }
 
 console.log(problemi ? `\n${problemi} problemi da sistemare.` : "\nTutto dentro i limiti.");

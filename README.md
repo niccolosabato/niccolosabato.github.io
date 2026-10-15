@@ -9,23 +9,26 @@ Live: <https://niccolosabato.github.io/sabatoPortfolio-cli/>, come project
 page. Diventerà il sito principale alla radice `niccolosabato.github.io`:
 lo scambio di nomi dei repo lo fa Niccolò.
 
-L'altra versione, in stile Game Boy, vive su
-<https://niccolosabato.github.io>. Da qui non punta più niente verso di
-lei: la home elenca solo i progetti attivi e le analisi.
+L'altra versione, in stile Game Boy, sta su
+<https://niccolosabato.github.io> e andrà offline: da qui non punta più
+niente verso di lei, la home elenca solo i progetti attivi e le analisi.
 
 ## Com'è fatto
 
 HTML, CSS e JavaScript puri. Nessuna dipendenza, nessun passo di
-compilazione. A runtime l'unica chiamata di rete è il tag di Google Analytics
-(lo stesso del sito Game Boy): sta in testa a `index.html` e nel template di
-`genera_analisi.py`. Se non serve più si tolgono quegli `<script>`, si
-rigenerano le analisi, e il sito resta completamente locale.
+compilazione. A runtime l'unica chiamata di rete è il tag di Google
+Analytics: sta in testa a `index.html`, a `404.html` e nel template di
+`genera_analisi.py`, quindi in ogni pagina, analisi comprese. Le viste
+progetto, che passano dall'hash, le conta l'evento `vista_progetto` di
+`js/main.js`. Se non serve più si tolgono quegli `<script>`, si rigenerano
+le analisi, e il sito resta completamente locale.
 
 ```
 index.html          la pagina, con lo script inline che prepara gli stati
 css/terminal.css    palette, layout, animazioni di stampa
 fonts/              JetBrains Mono 400, 500, 700, servito in locale (OFL)
-js/main.js          avvio, cambio vista sull'hash, stampa in sequenza
+js/main.js          avvio, cambio vista sull'hash, stampa in sequenza,
+                    evento di vista per GA
 js/print.js         le variabili CSS della macchina da scrivere, il salto
 js/render.js        costruisce le viste (home e progetto) dai file in data/
 data/projects.js    i progetti, unica fonte di verità (testi di Niccolò)
@@ -34,10 +37,10 @@ data/profile.js     le righe di whoami (testi di Niccolò)
 md/                 i Markdown delle analisi, con le figure in md/figures/
 analisi/            le pagine di lettura generate, tema scuro
 genera_analisi.py   md/ -> analisi/, con pandoc
-check.mjs           i limiti dei contenuti e la regola sui trattini
+check.mjs           limiti, trattini e presenza del tag di GA
 server.py           server di sviluppo locale
 cv.pdf              il curriculum
-404.html            pagina d'errore di GitHub Pages, css inline autonomo
+404.html            pagina d'errore di GitHub Pages, css inline, tag di GA
 og.png              anteprima di condivisione: screenshot della home
 ```
 
@@ -79,7 +82,7 @@ a entrambi gli elenchi.
 
 ```bash
 python3 server.py        # http://localhost:8765 (8766 se la 8765 è occupata)
-node check.mjs          # i contenuti stanno nei limiti?
+node check.mjs          # limiti, trattini e tag di GA
 ```
 
 Il doppio clic su `index.html` non funziona: gli ES modules non si caricano
