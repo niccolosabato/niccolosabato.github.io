@@ -9,8 +9,8 @@ modulo vecchio accanto a un `index.html` nuovo dopo una modifica.
 
     python3 server.py [porta]        # default 8765
 
-Se gira già il server del sito Game Boy (stessa porta di default), qui se ne
-sceglie un'altra: python3 server.py 8766
+Se la porta di default è già occupata, qui se ne sceglie un'altra:
+python3 server.py 8766
 """
 
 import http.server

@@ -14,8 +14,8 @@
 // oppure "ANALISI". Le sezioni vuote non compaiono.
 //
 // Per le voci di sezione "ANALISI" l'url del link inizia con "/analisi/":
-// render.js lo rende relativo, così il sito funziona anche sotto un
-// sottopercorso (project page GitHub).
+// render.js lo rende relativo, così il sito regge anche un eventuale
+// spostamento sotto un sottopercorso.
 
 export const PROGETTI = [
   {

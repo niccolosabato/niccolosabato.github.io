@@ -78,16 +78,12 @@
   </p>
 </main>
 <script>
-  // La 404 viene servita sul percorso richiesto, quindi il link alla home si
-  // calcola da lì: sotto un sottopercorso (project page GitHub) tiene il
-  // prefisso, altrimenti è la radice.
+  // La 404 viene servita sul percorso richiesto e il testo mostra dove si è
+  // arrivati; il link alla home punta alla radice, dove il sito vive.
   var percorso = decodeURIComponent(location.pathname);
   document.getElementById("percorso").textContent = percorso;
   document.getElementById("ripetuto").textContent = percorso;
-  document.getElementById("torna").href =
-    location.pathname.indexOf("/sabatoPortfolio-cli/") === 0
-      ? "/sabatoPortfolio-cli/"
-      : "/";
+  document.getElementById("torna").href = "/";
 </script>
 </body>
 </html>

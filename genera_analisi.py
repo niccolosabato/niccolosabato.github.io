@@ -50,9 +50,8 @@ INTESTAZIONI = {"h1", "h2", "h3", "h4", "h5", "h6"}
 INDIRIZZO = re.compile(r"https?://[^\s<>()\[\]]+")
 TRATTINI_VIETATI = ("—", "–")
 
-# Indirizzo assoluto della radice definitiva: i tag og: vogliono URL completi,
-# e il sito è destinato a vivere lì (lo scambio di repo lo fa Niccolò). Prima
-# dello scambio le anteprime di condivisione non li trovano: pazienza.
+# Indirizzo assoluto della radice, dove il sito vive: i tag og: vogliono URL
+# completi, unica eccezione alla regola dei percorsi relativi.
 SITO = "https://niccolosabato.github.io"
 
 # La stessa icona svg inline della home, per non dipendere da un percorso.
@@ -302,9 +301,9 @@ def corpo_html(radice):
 
 
 def pagina(titolo, descrizione, slug, corpo):
-    # Percorsi relativi: la pagina sta in analisi/<slug>/ e il sito può
-    # vivere anche sotto un sottopercorso (project page GitHub). Fanno
-    # eccezione i tag og:, che vogliono URL assoluti sulla radice definitiva.
+    # Percorsi relativi: la pagina sta in analisi/<slug>/ e regge anche un
+    # eventuale spostamento sotto un sottopercorso. Fanno eccezione i tag
+    # og:, che vogliono URL assoluti sulla radice, dove il sito vive.
     return """<!DOCTYPE html>
 <html lang="it">
 <head>

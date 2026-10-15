@@ -5,13 +5,11 @@ senza scorrimento. Tema scuro e un solo accento verde. Si naviga a
 clic come qualunque sito: ogni voce è un link, e cliccare un progetto cambia
 vista come un `cd` in un terminale vero.
 
-Live: <https://niccolosabato.github.io/sabatoPortfolio-cli/>, come project
-page. Diventerà il sito principale alla radice `niccolosabato.github.io`:
-lo scambio di nomi dei repo lo fa Niccolò.
+Live: <https://niccolosabato.github.io/>, alla radice del dominio, dopo lo
+scambio di nomi dei repo.
 
-L'altra versione, in stile Game Boy, sta su
-<https://niccolosabato.github.io> e andrà offline: da qui non punta più
-niente verso di lei, la home elenca solo i progetti attivi e le analisi.
+La versione in stile Game Boy è andata offline: da qui non punta più niente
+verso di lei, la home elenca solo i progetti attivi e le analisi.
 
 ## Com'è fatto
 
@@ -121,10 +119,10 @@ un'analisi nuova va aggiunta anche la voce in `data/projects.js` (sezione
 
 ## Pubblicazione
 
-Percorsi tutti relativi, quindi il sito funziona sia sulla radice di un
-dominio sia sotto un sottopercorso (project page GitHub). Il file
-`.nojekyll` impedisce a Pages di passare tutto per Jekyll. `404.html` è la
-pagina che Pages serve sui percorsi inesistenti: ha il css inline perché
-viene servita sul percorso rotto, anche profondo. I tag og: hanno URL
-assoluti sulla radice definitiva: finché il sito vive come project page le
-anteprime di condivisione non li trovano.
+Percorsi tutti relativi, quindi il sito regge sia la radice di un dominio
+sia un eventuale sottopercorso: è per questo che lo scambio di nomi dei repo
+si è potuto fare senza toccare niente. Il file `.nojekyll` impedisce a
+Pages di passare tutto per Jekyll. `404.html` è la pagina che Pages serve
+sui percorsi inesistenti: ha il css inline perché viene servita sul percorso
+rotto, anche profondo. I tag og: hanno URL assoluti sulla radice, dove il
+sito vive: le anteprime di condivisione li trovano.
