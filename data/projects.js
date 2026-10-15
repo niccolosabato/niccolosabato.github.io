@@ -91,11 +91,10 @@ export const PROGETTI = [
     link: [{ label: "LEGGI", url: "/analisi/suicidio-giovanile/" }],
   },
 
-  // --- DA COMPILARE ---------------------------------------------------
-  // Qui vanno le analisi statistiche, una voce per pagina di lettura. La
-  // pagina vive in `analisi/<id>/` e si genera dal Google Doc con
-  // `python3 genera_analisi.py`; la descrizione deve stare in nove righe.
-  // Modello da copiare:
+  // --- MODELLO ---------------------------------------------------------
+  // Per un'analisi nuova servono il Markdown in `md/<id>.md` (con le figure
+  // in `md/figures/<id>/`), una voce qui con sezione "ANALISI", e un lancio
+  // di `python3 genera_analisi.py` per la pagina di lettura. Da copiare:
   //
   // {
   //   id: "nome-corto",

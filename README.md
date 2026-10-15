@@ -5,8 +5,9 @@ senza scorrimento. Tema scuro e un solo accento verde salvia. Si naviga a
 clic come qualunque sito: ogni voce è un link, e cliccare un progetto cambia
 vista come un `cd` in un terminale vero.
 
-Live: da pubblicare (previsto come project page,
-`niccolosabato.github.io/sabatoPortfolio-cli/`).
+Live: <https://niccolosabato.github.io/sabatoPortfolio-cli/>, come project
+page. Diventerà il sito principale alla radice `niccolosabato.github.io`:
+lo scambio di nomi dei repo lo fa Niccolò.
 
 L'altra versione, in stile Game Boy, vive su
 <https://niccolosabato.github.io>. Da qui non punta più niente verso di
@@ -16,8 +17,9 @@ lei: la home elenca solo i progetti attivi e le analisi.
 
 HTML, CSS e JavaScript puri. Nessuna dipendenza, nessun passo di
 compilazione. A runtime l'unica chiamata di rete è il tag di Google Analytics
-(lo stesso del sito Game Boy, in testa a `index.html`): se non serve più si
-tolgono quei due `<script>` e il sito resta completamente locale.
+(lo stesso del sito Game Boy): sta in testa a `index.html` e nel template di
+`genera_analisi.py`. Se non serve più si tolgono quegli `<script>`, si
+rigenerano le analisi, e il sito resta completamente locale.
 
 ```
 index.html          la pagina, con lo script inline che prepara gli stati
@@ -35,6 +37,8 @@ genera_analisi.py   md/ -> analisi/, con pandoc
 check.mjs           i limiti dei contenuti e la regola sui trattini
 server.py           server di sviluppo locale
 cv.pdf              il curriculum
+404.html            pagina d'errore di GitHub Pages, css inline autonomo
+og.png              anteprima di condivisione: screenshot della home
 ```
 
 ### Come si legge la pagina
@@ -104,14 +108,19 @@ python3 genera_analisi.py lavoro-giovanile # una sola
 
 Lo script converte con pandoc, copia le figure, riscrive
 `analisi/<slug>/index.html` e si rifiuta di scrivere una pagina che contenga
-trattini lunghi o medi (regola di stile comune ai progetti). Le pagine
-generate non si modificano a mano: si corregge il Markdown e si rilancia.
-Quando si aggiunge un'analisi nuova va aggiunta anche la voce in
-`data/projects.js` (sezione `ANALISI`), altrimenti la home non la elenca e lo
-script lo segnala.
+trattini lunghi o medi (regola di stile comune ai progetti). Le figure
+restano senza didascalia, perché il titolo è già dentro il grafico: l'alt
+nel Markdown lo leggono solo gli screen reader. Le pagine generate non si
+modificano a mano: si corregge il Markdown e si rilancia. Quando si aggiunge
+un'analisi nuova va aggiunta anche la voce in `data/projects.js` (sezione
+`ANALISI`), altrimenti la home non la elenca e lo script lo segnala.
 
 ## Pubblicazione
 
 Percorsi tutti relativi, quindi il sito funziona sia sulla radice di un
 dominio sia sotto un sottopercorso (project page GitHub). Il file
-`.nojekyll` impedisce a Pages di passare tutto per Jekyll.
+`.nojekyll` impedisce a Pages di passare tutto per Jekyll. `404.html` è la
+pagina che Pages serve sui percorsi inesistenti: ha il css inline perché
+viene servita sul percorso rotto, anche profondo. I tag og: hanno URL
+assoluti sulla radice definitiva: finché il sito vive come project page le
+anteprime di condivisione non li trovano.
