@@ -7,7 +7,7 @@
 // saltano le animazioni. La finestra di salto dura quanto la stampa della
 // vista corrente, poi i listener si tolgono da soli.
 
-import { vistaHome, vistaProgetto } from "./render.js";
+import { vistaHome, vistaVoce } from "./render.js";
 import { prepara, durataStampa, salta } from "./print.js";
 
 const radice = document.documentElement;
@@ -64,13 +64,14 @@ function subito(blocchi) {
   }
 }
 
-/** La vista corrente la decide l'hash: #openfit è il progetto openfit,
- *  qualunque altra cosa (o niente) è la home. Una vista progetto manda
- *  anche l'evento `vista_progetto` a GA: passando dall'hash non sarebbe
- *  una page_view. Col ?statico l'evento resta spento. */
+/** La vista corrente la decide l'hash: #openfit è la scheda del progetto
+ *  openfit, #violenza-sessuale quella dell'analisi, qualunque altra cosa (o
+ *  niente) è la home. Una scheda manda anche l'evento `vista_progetto` a GA:
+ *  passando dall'hash non sarebbe una page_view. Col ?statico l'evento
+ *  resta spento. */
 function mostra() {
   const id = decodeURIComponent(location.hash.replace(/^#/, ""));
-  const vista = id ? vistaProgetto(id) : null;
+  const vista = id ? vistaVoce(id) : null;
   contenuto.innerHTML = vista || vistaHome();
 
   if (vista && !statico && typeof window.gtag === "function") {

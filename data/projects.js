@@ -15,7 +15,8 @@
 //
 // Per le voci di sezione "ANALISI" l'url del link inizia con "/analisi/":
 // render.js lo rende relativo, così il sito regge anche un eventuale
-// spostamento sotto un sottopercorso.
+// spostamento sotto un sottopercorso. Anche le analisi si aprono dalla
+// scheda, come i progetti: il link LEGGI sta lì.
 
 export const PROGETTI = [
   {
@@ -50,7 +51,7 @@ export const PROGETTI = [
     tipo: "APP ANDROID",
     riga: "Diario di allenamento",
     descrizione:
-      "Diario per la sala pesi: registri le serie mentre le fai, il recupero è cronometrato e i carichi della volta prima restano sotto gli occhi. Ora è in test chiuso sul Play Store: scrivimi per entrarci. I dati restano sul telefono.",
+      "Diario per la sala pesi: registri le serie mentre le fai, il recupero è cronometrato e i carichi della volta prima restano sotto gli occhi. Applicazione offline e privacy-oriented, i dati rimangono sul tuo telefono. Ora è in test chiuso sul Play Store: scrivimi per entrarci.",
     stack: ["Expo", "React Native", "SQLite"],
     link: [
       { label: "CONTATTAMI", url: "mailto:ncsabato@gmail.com" },

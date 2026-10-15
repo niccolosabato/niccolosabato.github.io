@@ -2,8 +2,8 @@
 
 La versione terminale del portfolio: una sola pagina, una sola schermata,
 senza scorrimento. Tema scuro e un solo accento verde. Si naviga a
-clic come qualunque sito: ogni voce è un link, e cliccare un progetto cambia
-vista come un `cd` in un terminale vero.
+clic come qualunque sito: ogni voce è un link, e cliccare una voce (un
+progetto o un'analisi) cambia vista come un `cd` in un terminale vero.
 
 Live: <https://niccolosabato.github.io/>, alla radice del dominio, dopo lo
 scambio di nomi dei repo.
@@ -16,8 +16,8 @@ verso di lei, la home elenca solo i progetti attivi e le analisi.
 HTML, CSS e JavaScript puri. Nessuna dipendenza, nessun passo di
 compilazione. A runtime l'unica chiamata di rete è il tag di Google
 Analytics: sta in testa a `index.html`, a `404.html` e nel template di
-`genera_analisi.py`, quindi in ogni pagina, analisi comprese. Le viste
-progetto, che passano dall'hash, le conta l'evento `vista_progetto` di
+`genera_analisi.py`, quindi in ogni pagina, analisi comprese. Le schede
+delle voci, che passano dall'hash, le conta l'evento `vista_progetto` di
 `js/main.js`. Se non serve più si tolgono quegli `<script>`, si rigenerano
 le analisi, e il sito resta completamente locale.
 
@@ -28,7 +28,7 @@ fonts/              JetBrains Mono 400, 500, 700, servito in locale (OFL)
 js/main.js          avvio, cambio vista sull'hash, stampa in sequenza,
                     evento di vista per GA
 js/print.js         le variabili CSS della macchina da scrivere, il salto
-js/render.js        costruisce le viste (home e progetto) dai file in data/
+js/render.js        costruisce le viste (home e schede) dai file in data/
 data/projects.js    i progetti, unica fonte di verità (testi di Niccolò)
 data/contacts.js    i contatti (testi di Niccolò)
 data/profile.js     le righe di whoami (testi di Niccolò)
@@ -63,11 +63,13 @@ dopo l'altro, con un offset cumulativo che le animazioni CSS leggono da
 stampando. Senza JavaScript la pagina resta nuda ma leggibile: le animazioni
 sono agganciate a una classe che mette lo script.
 
-Cliccare un progetto cambia vista, come un `cd`: la schermata diventa il
-`cat progetti/<id>` con campi, descrizione e link, e una riga `cd ..` per
-tornare all'elenco. Il cambio vista passa dall'hash, quindi il tasto
-indietro del browser funziona e `/#openfit` è un link profondo
-condivisibile. Le analisi sono link diretti alle pagine sotto `analisi/`.
+Cliccare una voce cambia vista, come un `cd`: la schermata diventa la sua
+scheda, il `cat progetti/<id>` per i progetti e `cat analisi/<id>` per le
+analisi, con campi, descrizione e link, più una riga `cd ..` per tornare
+all'elenco. La pagina di lettura di un'analisi si apre dal link LEGGI della
+scheda, nella vista corrente. Il cambio vista passa dall'hash, quindi il
+tasto indietro del browser funziona e `/#openfit` e `/#violenza-sessuale`
+sono link profondi condivisibili.
 
 La grammatica dei colori dichiara cosa si clicca: tutto ciò che è
 cliccabile sta nel verde e a peso 500 (nomi in elenco, cv, contatti,

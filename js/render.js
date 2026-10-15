@@ -1,9 +1,10 @@
 // Costruisce le viste della pagina a partire dai dati. Il sito sta in una
 // schermata sola, senza scorrimento: la home è l'elenco dei contenuti, e
-// cliccare un progetto cambia vista, come un `cd` in un terminale. La vista
-// del progetto è il suo `cat`, con in fondo una riga `cd ..` per tornare.
-// Il cambio vista passa dall'hash dell'indirizzo, quindi il tasto indietro
-// del browser funziona e /#openfit è un link profondo condivisibile.
+// cliccare una voce (un progetto o un'analisi) cambia vista, come un `cd` in
+// un terminale. La scheda della voce è il suo `cat`, con in fondo una riga
+// `cd ..` per tornare. Il cambio vista passa dall'hash dell'indirizzo, quindi
+// il tasto indietro del browser funziona e /#openfit è un link profondo
+// condivisibile.
 
 import { PROGETTI } from "../data/projects.js";
 import { CONTATTI } from "../data/contacts.js";
@@ -37,6 +38,16 @@ function urlRelativo(url) {
   return url.replace(/^\//, "");
 }
 
+/** I link delle schede. Un percorso del sito (inizia con "/", come le
+ *  pagine delle analisi) si apre nella vista corrente, come un normalissimo
+ *  link interno; tutto il resto porta fuori e si apre in una nuova scheda. */
+function linkAzione(url, etichetta) {
+  if (url.startsWith("/")) {
+    return `<a href="${t(urlRelativo(url))}">${t(etichetta)}</a>`;
+  }
+  return linkEsterno(url, etichetta);
+}
+
 /* ---------------------------------------------------------------- whoami --- */
 
 function sezioneWhoami() {
@@ -53,20 +64,13 @@ function sezioneWhoami() {
 
 /* -------------------------------------------------------- progetti/analisi -- */
 
-function voceProgetto(p) {
+/** Una voce dell'elenco: il nome cambia vista come un `cd`, apre la scheda
+ *  della voce. Vale anche per le analisi, che come i progetti passano dalla
+ *  scheda e solo da lì al link di lettura. */
+function voce(p) {
   return `<li class="voce">
     <div class="riga-voce">
       <a class="nome" href="#${t(p.id)}">${t(p.id)}<span class="slash">/</span></a>
-      <span class="nota">${t(p.riga)}</span>
-    </div>
-  </li>`;
-}
-
-function voceAnalisi(p) {
-  const url = urlRelativo((p.link && p.link[0] && p.link[0].url) || "");
-  return `<li class="voce">
-    <div class="riga-voce">
-      <a class="nome" href="${t(url)}">${t(p.id)}<span class="slash">/</span></a>
       <span class="nota">${t(p.riga)}</span>
     </div>
   </li>`;
@@ -115,22 +119,23 @@ export function vistaHome() {
 
   const sezioni = [sezioneWhoami()];
   if (progetti.length) {
-    sezioni.push(sezioneElenco("progetti", "ls progetti/", progetti.map(voceProgetto)));
+    sezioni.push(sezioneElenco("progetti", "ls progetti/", progetti.map(voce)));
   }
   if (analisi.length) {
-    sezioni.push(sezioneElenco("analisi", "ls analisi/", analisi.map(voceAnalisi)));
+    sezioni.push(sezioneElenco("analisi", "ls analisi/", analisi.map(voce)));
   }
   sezioni.push(sezioneCv(), sezioneContatti());
   return sezioni.join("");
 }
 
-/** La vista di un progetto: il suo `cat`, con `cd ..` in fondo per tornare.
- *  Restituisce null se l'id non è di un progetto. */
-export function vistaProgetto(id) {
-  const p = PROGETTI.find(
-    (x) => x.id === id && (x.sezione || "PROGETTI") === "PROGETTI",
-  );
+/** La scheda di una voce (progetto o analisi): il suo `cat`, con `cd ..`
+ *  in fondo per tornare. Restituisce null se l'id non è di una voce. */
+export function vistaVoce(id) {
+  const p = PROGETTI.find((x) => x.id === id);
   if (!p) return null;
+
+  const analisi = (p.sezione || "PROGETTI") === "ANALISI";
+  const cartella = analisi ? "analisi" : "progetti";
 
   const campi = [
     ["nome", p.nome],
@@ -143,15 +148,15 @@ export function vistaProgetto(id) {
   const azioni = (p.link || [])
     .map(
       (l) =>
-        `<span class="azione"><span class="parentesi">[</span>${linkEsterno(
+        `<span class="azione"><span class="parentesi">[</span>${linkAzione(
           l.url,
           l.label,
         )}<span class="parentesi">]</span></span>`,
     )
     .join("");
 
-  return `<section class="blocco" id="progetto-${t(p.id)}">
-    ${rigaComando(`cat progetti/${p.id}`)}
+  return `<section class="blocco" id="voce-${t(p.id)}">
+    ${rigaComando(`cat ${cartella}/${p.id}`)}
     <div class="righe">
       <dl class="campi">${campi}</dl>
       <p class="descrizione">${t(p.descrizione)}</p>
