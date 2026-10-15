@@ -127,8 +127,8 @@ main li { margin: 0.35em 0; }
 /* Figure: i PNG nascono su fondo bianco (vengono dai documenti originali),
    quindi stanno in un cartiglio chiaro, un foglio appoggiato sul terminale.
    Restano leggibili senza ritoccarle e staccano nettamente dal fondo scuro.
-   Pandoc avvolge le immagini sole in un <figure> e mette l'alt in una
-   didascalia: la didascalia resta, piccola e attenuata, sotto il cartiglio. */
+   Niente didascalia sotto: il titolo è già dentro il grafico, e l'alt resta
+   sull'img, dove lo leggono solo gli screen reader. */
 main figure { margin: 2rem 0; }
 
 main img {
@@ -140,13 +140,6 @@ main img {
   background: var(--carta-figure);
   border: 1px solid #33332e;
   border-radius: 3px;
-}
-
-main figcaption {
-  margin-top: 0.7rem;
-  color: var(--tenue);
-  font-family: var(--mono);
-  font-size: 0.78rem;
 }
 
 /* Le figure escono dalla colonna di lettura: i PNG nascono larghi 1000-1900

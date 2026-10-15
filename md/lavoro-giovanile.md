@@ -57,7 +57,7 @@ mondi, le province vengono ricomposte nelle rispettive regioni.
 
 ### 3.1 Un divario che non si chiude
 
-![](figures/lavoro-giovanile/image1.png)
+![Serie storica del tasso di NEET 15-29 per macro-area, dal 2000 al 2025](figures/lavoro-giovanile/image1.png)
 
 La media nazionale ha seguito una curva a gobba. È salita fino al 24,6% nel
 2014, è scesa al 20,5% nel 2019, ha avuto un rimbalzo nel 2020 e nel 2021
@@ -75,7 +75,7 @@ come se il divario avesse un livello minimo che non scende.
 | 2019 | 14,0% | 16,6%  | 29,7%       |
 | 2024 | 9,7%  | 11,7%  | 21,2%       |
 
-![](figures/lavoro-giovanile/image11.png)
+![Classifica regionale del tasso di NEET 15-29 nel 2024](figures/lavoro-giovanile/image11.png)
 
 La classifica regionale del 2024 non lascia zone intermedie. In testa ci
 sono Calabria (26,2%), Sicilia (25,7%), Campania (24,9%) e Puglia (21,4%).
@@ -90,7 +90,7 @@ Viene spontaneo attribuire il ritardo del Sud all'istruzione: pochi
 laureati, molti giovani usciti presto dal sistema scolastico. I numeri
 raccontano un'altra storia.
 
-![](figures/lavoro-giovanile/image3.png)
+![Correlazione di Pearson fra il tasso di NEET e le variabili regionali](figures/lavoro-giovanile/image3.png)
 
 La quota di popolazione laureata ha un legame molto debole con il tasso di
 NEET. Le variabili che invece procedono insieme al fenomeno sono quelle del
@@ -107,7 +107,7 @@ NEET è un'etichetta che raccoglie situazioni diverse. Eurostat distingue chi
 cerca attivamente lavoro da chi si è ritirato dalla ricerca, restando
 inattivo.
 
-![](figures/lavoro-giovanile/image7.png)
+![Composizione del NEET italiano: disoccupati, inattivi che vorrebbero lavorare, inattivi che non cercano](figures/lavoro-giovanile/image7.png)
 
 Nel 2024 la maggior parte dei NEET, circa sette su dieci, un lavoro lo
 cercava o lo avrebbe voluto. Sono disoccupati oppure inattivi che, davanti a
@@ -119,7 +119,7 @@ giovani che risultano inattivi, c'è, e in misura larga.
 
 ### 3.4 Genere e partecipazione femminile
 
-![](figures/lavoro-giovanile/image10.png)
+![Divario di genere nel tasso di NEET nel 2024, donne meno uomini per regione](figures/lavoro-giovanile/image10.png)
 
 A livello nazionale il tasso di NEET delle donne supera quello degli uomini
 di quasi tre punti. La differenza cambia però molto sul territorio. È ampia
@@ -131,7 +131,7 @@ rendere il divario di genere, su questo indicatore, meno visibile.
 Il dato che pesa di più, dal punto di vista strutturale, riguarda la
 partecipazione delle donne al mercato del lavoro.
 
-![](figures/lavoro-giovanile/image8.png)
+![Classifica regionale del tasso di attività femminile 15-64 nel 2024](figures/lavoro-giovanile/image8.png)
 
 Il tasso di attività femminile va dal 39% della Calabria e dal 39,5% della
 Campania al 71,4% della Valle d'Aosta. La distanza tra Nord e Sud supera i
@@ -146,7 +146,7 @@ spiega circa il 65% delle differenze tra regioni e anni, con un errore medio
 di circa tre punti percentuali. Ripetere la media storica avrebbe prodotto
 un errore di oltre sette punti.
 
-![](figures/lavoro-giovanile/image4.png)
+![Importanza di permutazione dei blocchi di variabili nel modello di previsione](figures/lavoro-giovanile/image4.png)
 
 Il tasso di occupazione è la variabile più informativa. Una volta noto, le
 altre aggiungono poco, perché l'informazione che portano è in buona parte
@@ -154,7 +154,7 @@ già contenuta in esso. Il modello, va detto, non contiene alcuna etichetta
 di regione: il divario Nord-Sud compare da solo, come conseguenza di
 occupazione, disoccupazione e reddito.
 
-![](figures/lavoro-giovanile/image6.png)
+![NEET previsto contro NEET reale nel test sugli anni dal 2019 al 2024](figures/lavoro-giovanile/image6.png)
 
 La verifica è stata fatta solo su anni successivi a quelli usati per
 l'addestramento, dal 2019 al 2024, e mai su dati già visti. È la sola prova
@@ -169,7 +169,7 @@ programmate per il trimestre luglio-settembre 2026, il 42,6% è giudicato di
 difficile reperimento. La difficoltà cresce con la specializzazione
 richiesta.
 
-![](figures/lavoro-giovanile/image2.png)
+![Quota di assunzioni di difficile reperimento per livello di istruzione richiesto](figures/lavoro-giovanile/image2.png)
 
 Le posizioni più numerose riguardano la ristorazione, il turismo e
 l'amministrazione. Quelle più difficili da coprire sono invece tutte
@@ -185,7 +185,7 @@ preparati. La prima è una questione di quantità, la seconda di qualità, ed è
 la seconda a costituire il disallineamento vero e proprio tra formazione e
 lavoro.
 
-![](figures/lavoro-giovanile/image9.png)
+![Cause del difficile reperimento per livello di istruzione: mancano i candidati o sono impreparati](figures/lavoro-giovanile/image9.png)
 
 Le assunzioni difficili per mancanza di candidati sono il 26,2%, quelle
 difficili per preparazione inadeguata il 12,6%. La prima causa vale circa il
@@ -198,7 +198,7 @@ disponibili nei profili richiesti, prima ancora della loro preparazione.
 Mettendo a confronto le previsioni delle imprese con i tassi regionali di
 NEET si arriva al risultato più interessante dell'analisi.
 
-![](figures/lavoro-giovanile/image5.png)
+![Relazione inversa fra tasso di NEET regionale e quota di difficile reperimento](figures/lavoro-giovanile/image5.png)
 
 Dove il NEET è alto, cioè nel Sud, le imprese dichiarano meno difficoltà a
 trovare personale. Dove il NEET è basso, al Centro-Nord, ne dichiarano di

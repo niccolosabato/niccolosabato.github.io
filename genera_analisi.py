@@ -10,10 +10,12 @@ Per ogni file lo script:
   1. converte il Markdown in HTML con pandoc;
   2. sistema il markup: figure pronte per la lettura (percorso, dimensioni,
      caricamento pigro), tabelle avvolte in un riquadro scorrevole,
-     indirizzi nudi trasformati in link;
-  3. controlla che nell'output non compaiano trattini lunghi o medi (—, –),
+     indirizzi nudi trasformati in link, didascalie tolte (il titolo è già
+     dentro il grafico; l'alt resta per gli screen reader);
+  3. ricava la meta description dal primo paragrafo dell'analisi;
+  4. controlla che nell'output non compaiano trattini lunghi o medi (—, –),
      vietati dallo stile comune dei progetti;
-  4. scrive `analisi/<slug>/index.html` e copia le figure in
+  5. scrive `analisi/<slug>/index.html` e copia le figure in
      `analisi/<slug>/figures/`.
 
 Le pagine generate si riscrivono da capo a ogni lancio: le modifiche si fanno
@@ -47,6 +49,29 @@ VUOTI = {
 INTESTAZIONI = {"h1", "h2", "h3", "h4", "h5", "h6"}
 INDIRIZZO = re.compile(r"https?://[^\s<>()\[\]]+")
 TRATTINI_VIETATI = ("—", "–")
+
+# Indirizzo assoluto della radice definitiva: i tag og: vogliono URL completi,
+# e il sito è destinato a vivere lì (lo scambio di repo lo fa Niccolò). Prima
+# dello scambio le anteprime di condivisione non li trovano: pazienza.
+SITO = "https://niccolosabato.github.io"
+
+# La stessa icona svg inline della home, per non dipendere da un percorso.
+ICONA = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "
+         "viewBox='0 0 16 16'%3E%3Crect width='16' height='16' "
+         "fill='%230c0c0c'/%3E%3Ctext x='2' y='12.5' font-family='monospace' "
+         "font-size='11' fill='%239caf88'%3E%26gt;_%3C/text%3E%3C/svg%3E")
+
+# Lo stesso tag della home: anche le letture lunghe finiscono nelle
+# statistiche. Due script da togliere (qui e in index.html) se GA non serve.
+GA = """<!-- Google tag (gtag.js), stesso ID della home -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4P77DPPF9D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4P77DPPF9D');
+</script>"""
 
 
 # ---------------------------------------------------------------------------
@@ -179,6 +204,50 @@ def sistema_b(nodi):
     return fuori
 
 
+def togli_didascalie(nodi):
+    """Le figure restano senza didascalia: il titolo è già dentro il grafico,
+    e una riga sotto lo duplicherebbe. L'alt resta sull'img, dove lo leggono
+    solo gli screen reader."""
+    fuori = []
+    for f in nodi:
+        if isinstance(f, str):
+            fuori.append(f)
+        elif f.tag == "figcaption":
+            continue
+        else:
+            f.figli = togli_didascalie(f.figli)
+            fuori.append(f)
+    return fuori
+
+
+def descrizione_meta(radice, slug):
+    """La meta description è l'attacco dell'analisi: il primo paragrafo
+    sostanzioso, tagliato al confine fra le parole."""
+    trovato = None
+
+    def cerca(nodi):
+        nonlocal trovato
+        for f in nodi:
+            if trovato or isinstance(f, str):
+                continue
+            if f.tag == "p" and not contiene(f, "img"):
+                testo = " ".join(f.testo().split())
+                if len(testo) >= 60:
+                    trovato = testo
+                    return
+            cerca(f.figli)
+
+    cerca(radice.figli)
+    if not trovato:
+        raise SystemExit(
+            "%s: nessun paragrafo abbastanza lungo per la meta description"
+            % slug
+        )
+    if len(trovato) > 158:
+        trovato = trovato[:158].rsplit(" ", 1)[0] + "..."
+    return trovato
+
+
 def collega_url(nodi):
     """Gli indirizzi scritti nudi nel testo diventano link veri."""
     fuori = []
@@ -231,15 +300,29 @@ def corpo_html(radice):
     return "\n".join(serializza(f) for f in blocchi)
 
 
-def pagina(titolo, corpo):
+def pagina(titolo, descrizione, slug, corpo):
     # Percorsi relativi: la pagina sta in analisi/<slug>/ e il sito può
-    # vivere anche sotto un sottopercorso (project page GitHub).
+    # vivere anche sotto un sottopercorso (project page GitHub). Fanno
+    # eccezione i tag og:, che vogliono URL assoluti sulla radice definitiva.
     return """<!DOCTYPE html>
 <html lang="it">
 <head>
+%s
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>%s · Sabato Portfolio</title>
+<meta name="description" content="%s">
+<meta name="theme-color" content="#0c0c0c">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Sabato Portfolio">
+<meta property="og:title" content="%s · Sabato Portfolio">
+<meta property="og:description" content="%s">
+<meta property="og:url" content="%s/analisi/%s/">
+<meta property="og:image" content="%s/og.png">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.ico" sizes="any">
+<link rel="icon" href="%s">
 <link rel="stylesheet" href="../analisi.css">
 </head>
 <body>
@@ -254,7 +337,9 @@ def pagina(titolo, corpo):
 <footer><a href="../../">torna al portfolio</a></footer>
 </body>
 </html>
-""" % (html.escape(titolo), html.escape(titolo), corpo)
+""" % (GA, html.escape(titolo), html.escape(descrizione),
+       html.escape(titolo), html.escape(descrizione),
+       SITO, slug, SITO, ICONA, html.escape(titolo), corpo)
 
 
 # ---------------------------------------------------------------------------
@@ -343,6 +428,8 @@ def genera(sorgente, pandoc):
     sistema_a(radice, dimensioni)
     radice.figli = sistema_b(radice.figli)
     radice.figli = collega_url(radice.figli)
+    radice.figli = togli_didascalie(radice.figli)
+    descrizione = descrizione_meta(radice, slug)
     corpo = corpo_html(radice)
 
     destinazione = USCITA / slug
@@ -356,7 +443,7 @@ def genera(sorgente, pandoc):
         if figura.is_file():
             shutil.copy2(figura, cartella_figure / figura.name)
 
-    testo_pagina = pagina(titolo, corpo)
+    testo_pagina = pagina(titolo, descrizione, slug, corpo)
     controlla_trattini(testo_pagina, slug)
     (destinazione / "index.html").write_text(testo_pagina, encoding="utf-8")
     print("  scritto %s/index.html con %d figure"
