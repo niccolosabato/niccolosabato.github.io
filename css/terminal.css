@@ -1,5 +1,5 @@
 /* Sabato Portfolio CLI: la pagina è lo scrollback di una sessione di
-   terminale. Tema scuro, grigi neutri, un solo accento verde salvia.
+   terminale. Tema scuro, grigi neutri, un solo accento verde.
    Le animazioni di stampa (macchina da scrivere sui comandi, righe che
    compaiono in sequenza) sono tutte in CSS: JS aggiunge solo le classi
    .visto ai blocchi quando entrano in vista e le variabili --n, --t-cmd, --i.
@@ -42,8 +42,8 @@
   --testo: #c9c9c2;
   --luminoso: #e9e9e2;
   --tenue: #7d7d74;
-  --accento: #9caf88;
-  --accento-luce: #b6c5a2;
+  --accento: #8ab061;
+  --accento-luce: #a1c86d;
   --filo: #262622;
   --rilievo: #141412;
   --misura: 46rem;
@@ -107,6 +107,7 @@ body {
 a {
   color: var(--accento);
   text-decoration: none;
+  font-weight: 500;
 }
 a:hover {
   color: var(--accento-luce);
@@ -137,7 +138,7 @@ a:hover {
 /* ------------------------------------------------------- prompt e righe --- */
 
 /* Il prompt è grigio: i separatori attenuati, utente e host chiari. Il
-   salvia resta solo a ciò che si clicca, altrimenti la pagina diventa
+   verde resta solo a ciò che si clicca, altrimenti la pagina diventa
    tutta verde. */
 .prompt { color: var(--tenue); }
 .prompt b {
@@ -258,12 +259,13 @@ html.istantaneo *:not(.cursore) {
   padding: 0.18rem 0;
 }
 
-/* Il nome è un link o un bottone vestito da link. Il salvia è il colore di
+/* Il nome è un link o un bottone vestito da link. Verde e peso 500 sono di
    tutto ciò che è cliccabile su questo sito: nomi in elenco, contatti,
    azioni, cd .. Il grigio chiaro è testo, quello attenuato note e commenti. */
 .nome {
   color: var(--accento);
   font: inherit;
+  font-weight: 500;
   background: none;
   border: 0;
   margin: 0;

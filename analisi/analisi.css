@@ -23,7 +23,7 @@
   --testo: #c5c5be;
   --luminoso: #e9e9e2;
   --tenue: #85857c;
-  --accento: #9caf88;
+  --accento: #8ab061;
   --filo: #262622;
   --carta-figure: #f2f1ea;
   --misura: 40rem;
@@ -119,7 +119,7 @@ main a {
   text-underline-offset: 2px;
   overflow-wrap: anywhere;
 }
-main a:hover { color: #b6c5a2; }
+main a:hover { color: #a1c86d; }
 
 main ul, main ol { margin: 0 0 1.05em; padding-left: 1.3em; }
 main li { margin: 0.35em 0; }

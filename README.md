@@ -1,7 +1,7 @@
 # Sabato Portfolio CLI
 
 La versione terminale del portfolio: una sola pagina, una sola schermata,
-senza scorrimento. Tema scuro e un solo accento verde salvia. Si naviga a
+senza scorrimento. Tema scuro e un solo accento verde. Si naviga a
 clic come qualunque sito: ogni voce è un link, e cliccare un progetto cambia
 vista come un `cd` in un terminale vero.
 
@@ -71,10 +71,11 @@ tornare all'elenco. Il cambio vista passa dall'hash, quindi il tasto
 indietro del browser funziona e `/#openfit` è un link profondo
 condivisibile. Le analisi sono link diretti alle pagine sotto `analisi/`.
 
-La grammatica dei colori dichiara cosa si clicca: il salvia è di tutto ciò
-che è cliccabile (nomi in elenco, cv, contatti, azioni, `cd ..`), il grigio
-chiaro è testo e quello attenuato sono note e commenti shell. Il prompt
-compreso, che è grigio: se fosse verde la pagina sarebbe tutta verde. Sotto
+La grammatica dei colori dichiara cosa si clicca: tutto ciò che è
+cliccabile sta nel verde e a peso 500 (nomi in elenco, cv, contatti,
+azioni, `cd ..`), il grigio chiaro è testo e quello attenuato sono note e
+commenti shell. Il prompt compreso, che è grigio: se fosse verde la pagina
+sarebbe tutta verde. Sotto
 `whoami` un commento, `# clicca su una voce verde per aprirla`, fa da guida
 a entrambi gli elenchi.
 

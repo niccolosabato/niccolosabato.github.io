@@ -59,7 +59,7 @@ SITO = "https://niccolosabato.github.io"
 ICONA = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "
          "viewBox='0 0 16 16'%3E%3Crect width='16' height='16' "
          "fill='%230c0c0c'/%3E%3Ctext x='2' y='12.5' font-family='monospace' "
-         "font-size='11' fill='%239caf88'%3E%26gt;_%3C/text%3E%3C/svg%3E")
+         "font-size='11' fill='%238ab061'%3E%26gt;_%3C/text%3E%3C/svg%3E")
 
 # Lo stesso tag della home: anche le letture lunghe finiscono nelle
 # statistiche. Le copie del tag da togliere, se GA non serve, sono tre:
