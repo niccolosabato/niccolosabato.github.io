@@ -53,8 +53,10 @@ classi e le variabili, non disegna niente.
 
 Il sito sta in una schermata sola: niente scorrimento, il carattere si scala
 sulla finestra (altezza e larghezza) perché tutto il contenuto resti dentro.
-Sotto i 600px di altezza, telefono ruotato, lo scorrimento torna: tagliare
-il contenuto sarebbe peggio.
+La scala è tarata sul contenuto misurato, così la riga finale col cursore
+resta dentro anche sulle finestre basse, già da 601px di altezza. Sotto i
+600px, telefono ruotato, lo scorrimento torna: tagliare il contenuto sarebbe
+peggio.
 
 Al caricamento e a ogni cambio vista i blocchi si stampano in sequenza, uno
 dopo l'altro, con un offset cumulativo che le animazioni CSS leggono da

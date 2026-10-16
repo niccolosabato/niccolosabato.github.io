@@ -72,11 +72,15 @@ body {
   /* Il sito sta in una schermata sola: il carattere si scala sulla finestra
      perché tutto il contenuto resti dentro. Il minimo fra i due clamp tiene
      conto dell'altezza (le righe) e della larghezza (le righe che andrebbero
-     a capo). */
+     a capo). I numeri vengono da una misura del contenuto: a 15px la home è
+     alta 822px, e sopra 1.77dvh circa la riga finale col cursore esce dalla
+     finestra: 1.74 è il valore scelto per tenersi un margine. Il pavimento a
+     10.5px copre le finestre appena sopra i 600px, dove il contenuto vuole
+     10.6px. */
   font-family: "JetBrains Mono", ui-monospace, "Cascadia Mono",
         Menlo, Consolas, monospace;
   font-weight: 400;
-  font-size: min(clamp(11px, 1.9dvh, 15px), clamp(11px, 3.4vw, 15px));
+  font-size: min(clamp(10.5px, 1.74dvh, 15px), clamp(10.5px, 3.4vw, 15px));
   line-height: 1.7;
 }
 
